@@ -119,3 +119,13 @@ export const isAuth = async (req, res, next) => {
     next(new AppError(err, 500));
   }
 };
+
+export const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError('You dont have access to do this', 403));
+    }
+
+    next();
+  };
+};

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-const filtering = (productBrandId, productTypeId, from, to) => {
+export default function filtering(productBrandId, productTypeId, from, to) {
   let filtering;
 
   // if exists all of them
@@ -144,4 +144,5 @@ const filtering = (productBrandId, productTypeId, from, to) => {
   if (!productBrandId && !productTypeId && !from && !to) {
     filtering = {};
   }
-};
+  return filtering;
+}
