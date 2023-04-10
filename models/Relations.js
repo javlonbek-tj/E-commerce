@@ -1,23 +1,23 @@
 export default async function Relations(db) {
-  await db.users.hasOne(db.carts);
+  await db.users.hasOne(db.carts, { onDelete: 'CASCADE' });
   await db.carts.belongsTo(db.users);
 
-  await db.product_type.hasMany(db.products);
-  await db.products.belongsTo(db.product_type);
+  await db.productType.hasMany(db.products);
+  await db.products.belongsTo(db.productType);
 
-  await db.products.hasMany(db.product_info);
-  await db.product_info.belongsTo(db.products);
+  await db.products.hasMany(db.productInfo, { onDelete: 'CASCADE' });
+  await db.productInfo.belongsTo(db.products);
 
-  await db.product_brand.hasMany(db.products);
-  await db.products.belongsTo(db.product_brand);
+  await db.productBrand.hasMany(db.products);
+  await db.products.belongsTo(db.productBrand);
 
-  await db.products.belongsToMany(db.carts, { through: db.cart_items });
-  await db.carts.belongsToMany(db.products, { through: db.cart_items });
+  await db.products.belongsToMany(db.carts, { through: db.cartItems });
+  await db.carts.belongsToMany(db.products, { through: db.cartItems });
 
-  await db.product_brand.belongsToMany(db.product_type, {
-    through: db.type_brands,
+  await db.productBrand.belongsToMany(db.productType, {
+    through: db.typeBrands,
   });
-  await db.product_type.belongsToMany(db.product_brand, {
-    through: db.type_brands,
+  await db.productType.belongsToMany(db.productBrand, {
+    through: db.typeBrands,
   });
 }

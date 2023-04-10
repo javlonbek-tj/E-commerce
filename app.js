@@ -2,8 +2,10 @@ import express from 'express';
 import pg from './services/pg.js';
 import router from './routes/index.js';
 import dotenv from 'dotenv';
-import AppError from './services/AppErorr.js';
+import AppError from './services/AppError.js';
 import globalErrorHandler from './controllers/error.controller.js';
+import path from 'path';
+import fileUpload from 'express-fileupload';
 dotenv.config();
 
 const app = express();
@@ -19,6 +21,9 @@ async function start() {
     });
 
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.static(path.resolve('images')));
+    app.use(fileUpload());
     app.use((req, res, next) => {
       req.db = db;
       next();

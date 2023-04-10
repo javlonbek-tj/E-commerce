@@ -1,5 +1,5 @@
 export default function UsersModel(sequelize, Sequelize) {
-  return sequelize.define("user", {
+  return sequelize.define('user', {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
@@ -8,11 +8,19 @@ export default function UsersModel(sequelize, Sequelize) {
     email: {
       type: Sequelize.DataTypes.STRING,
       allowNul: false,
-      unque: true,
+      unique: true,
     },
     password: {
       type: Sequelize.DataTypes.STRING,
       allowNul: false,
+    },
+    role: {
+      type: Sequelize.DataTypes.STRING,
+      allowNul: false,
+      defaultValue: 'User',
+    },
+    passwordChangedAt: {
+      type: Sequelize.DataTypes.DATE,
     },
   });
 }

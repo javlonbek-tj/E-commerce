@@ -1,5 +1,5 @@
 export default function ProductsModel(sequelize, Sequelize) {
-  return sequelize.define("product", {
+  return sequelize.define('product', {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
@@ -11,6 +11,10 @@ export default function ProductsModel(sequelize, Sequelize) {
     },
     price: {
       type: Sequelize.DataTypes.DECIMAL,
+      allowNul: false,
+    },
+    img: {
+      type: Sequelize.DataTypes.STRING,
       allowNul: false,
     },
   });
