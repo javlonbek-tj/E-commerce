@@ -1,11 +1,15 @@
 import express from 'express';
 import pg from './services/pg.js';
-import router from './routes/index.js';
 import dotenv from 'dotenv';
 import AppError from './services/AppError.js';
-import globalErrorHandler from './controllers/error.controller.js';
+import { globalErrorHandler, get404 } from './controllers/error.controller.js';
 import path from 'path';
 import fileUpload from 'express-fileupload';
+import { isAuth } from './controllers/auth-controller.js';
+import adminRoutes from './routes/admin.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import productRoutes from './routes/product.routes.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 const app = express();
@@ -20,20 +24,36 @@ async function start() {
       console.log(`Server is running on PORT ${PORT}`);
     });
 
+    app.set('view engine', 'ejs');
+    app.set('views', 'views');
+
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
+
     app.use(express.static(path.resolve('images')));
-    app.use(fileUpload());
+    app.use(express.static(path.resolve('public')));
+
     app.use((req, res, next) => {
       req.db = db;
       next();
     });
 
-    app.use('/api/v1', router);
+    app.use(isAuth);
 
-    app.all('*', (req, res, next) => {
-      next(new AppError('Page not found', 404));
+    // Set global user
+    app.use(function (req, res, next) {
+      res.locals.user = req.user || null;
+      next();
     });
+
+    app.use(fileUpload());
+
+    app.use(productRoutes);
+    app.use('/admin', adminRoutes);
+    app.use(authRoutes);
+
+    app.use(get404);
     app.use(globalErrorHandler);
   } catch (err) {
     console.log(err);

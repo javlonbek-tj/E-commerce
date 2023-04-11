@@ -1,4 +1,11 @@
+export const get404 = (req, res, next) => {
+  res.status(404).render('404', {
+    pageTitle: 'Sahifa topilmadi',
+  });
+};
+
 const sendErrorDev = (err, req, res) => {
+  console.log(err);
   res.status(err.statusCode).json({
     success: false,
     message: err.message,
@@ -22,7 +29,7 @@ const sendErrorProd = (err, req, res) => {
     message: 'Something went wrong',
   });
 };
-export default function globalErrorHandler(err, req, res, next) {
+export function globalErrorHandler(err, req, res, next) {
   err.statusCode = err.statusCode || 500;
 
   if (process.env.NODE_ENV === 'production') {

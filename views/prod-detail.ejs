@@ -1,0 +1,75 @@
+<%- include('./includes/head.ejs') %>
+<section class="mts">
+  <div class="container pb-5">
+    <div class="row">
+      <div class="col-lg-5">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          <% if(1) { %>
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <% if(product.img.length == 3) { %>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <% } %>
+          </div>
+          <% } %>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="/<%= product.img %>" class="d-block w-100" alt="..." />
+            </div>
+            <!-- <% if(product.img.length == 2 || product.img.length == 3) { %>
+            <div class="carousel-item">
+              <img src="/<%= product.img[1] %>" class="d-block w-100" alt="..." />
+            </div>
+            <% } %> <% if(product.img.length == 3) { %>
+            <div class="carousel-item">
+              <img src="/<%= product.img[2] %>" class="d-block w-100" alt="..." />
+            </div>
+            <% } %> -->
+          </div>
+          <% if(product.img.length > 1) { %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+        </div>
+      </div>
+      <!-- col end -->
+      <div class="detail_card col-lg-7">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-md-flex justify-content-between mb-3">
+              <h2 class="main_info"><%= product.name %></h2>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <p class="h1"><%= product.price %> $</p>
+            </div>
+            <ul class="list-unstyled pb-3 fs-4 details">
+              <li><span> Yoqilg'i turi:</span> &nbsp <%= product.name %></li>
+              <li><span> Yili: </span> &nbsp <%= product.name %></li>
+              <li><span> Yurgan kilometraji: &nbsp</span> <%= product.name %></li>
+            </ul>
+            <div class="pb-3 d-flex justify-content-evenly details_buttons">
+              <button type="submit">Savatga qo'shish</button>
+              <!--  <button type="submit">Muallifga yozish</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="mbs"></section>
+<%- include('./includes/end.ejs') %>

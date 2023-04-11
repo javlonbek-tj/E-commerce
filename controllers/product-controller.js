@@ -1,39 +1,26 @@
 import AppError from '../services/AppError.js';
-import { v4 } from 'uuid';
-import path from 'path';
 import { Op } from 'sequelize';
 import filtering from '../services/filtering.js';
+import formatProd from '../services/formatProd.js';
 
-export const createProduct = async (req, res, next) => {
+export const homePage = async (req, res, next) => {
   try {
-    let { name, price, productBrandId, productTypeId, ...info } = req.body;
-    const { img } = req.files;
-    let fileName = v4() + '.jpg';
-    img.mv(path.resolve('images', fileName));
-    const product = await req.db.products.create({
-      name,
-      price,
-      productBrandId,
-      productTypeId,
-      img: fileName,
+    const topProds = await req.db.products.findAll({ where: { top: { [Op.not]: 'false' } }, raw: true });
+    const allProds = await req.db.products.findAll({
+      where: { top: { [Op.not]: 'true' } },
+      order: [['createdAt', 'DESC']],
+      raw: true,
     });
-    console.log(Object.values(info));
-    if (info) {
-      info = JSON.parse(info);
-      info.forEach(i => {
-        req.db.productInfos({
-          title: i.title,
-          description: i.description,
-          productId: product.id,
-        });
-      });
+    if (topProds.length > 0) {
+      formatProd(topProds);
     }
-    res.status(201).json({
-      success: true,
-      message: 'Product created successfully',
-      data: {
-        product,
-      },
+    if (allProds.length > 0) {
+      formatProd(allProds);
+    }
+    res.render('home', {
+      pageTitle: 'E-Shopping',
+      topProds,
+      prods: allProds,
     });
   } catch (err) {
     next(new AppError(err, 500));
@@ -79,13 +66,12 @@ export const getOneProduct = async (req, res, next) => {
     const { id } = req.params;
     const product = await req.db.products.findOne({
       where: { id },
-      include: req.db.productInfos,
+      raw: true,
     });
-    res.status(200).json({
-      success: true,
-      data: {
-        product,
-      },
+    console.log(product);
+    res.render('prod-detail', {
+      pageTitle: `${product.name}`,
+      product,
     });
   } catch (err) {
     next(new AppError(err, 500));

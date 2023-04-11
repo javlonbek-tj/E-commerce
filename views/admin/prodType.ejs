@@ -1,0 +1,20 @@
+<%- include('../includes/head.ejs') %>
+<section class="mts">
+  <div class="container w-50">
+    <% if(errorMessage) { %>
+    <h3 class="text-center text-danger mb-5"><%= errorMessage %></h3>
+    <% } %>
+    <form class="input-group mb-5" action="/admin/type" method="POST">
+      <input type="text" class="form-control fs-3" placeholder="Mahsulot turi" name="name" />
+      <button class="btn btn-outline-secondary fs-3" type="submit" id="button-addon2">Qo'shish</button>
+    </form>
+    <div class="mts">
+      <h3>Barcha mahsulot turlari:</h3>
+      <ul>
+        <li class="fs-3">Televizor</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="mbs"></section>
+<%- include('../includes/end.ejs') %>

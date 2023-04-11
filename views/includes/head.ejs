@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <!-- header section starts  -->
+    <div class="first__header">
+      <div class="d-flex justify-content-between container-lg">
+        <a href="#" class="d-flex align-items-center text-white fs-4"
+          ><i class="fa-brands fa-telegram fs-4 text-white me-3"></i> <span class="fs-5">Telegram</span></a
+        >
+        <div class="d-flex fs-5">
+          <% if(!user) { %>
+          <div class="d-flex" id="signUp">
+            <a href="/login" class="text-white pe-2">Kirish |</a>
+            <a href="/signup" class="text-white pe-3">Ro'yxatdan o'tish</a>
+          </div>
+          <% } %>
+          <a><i class="fa-solid fa-phone text-light"> <span>998 90 004 81 14</span></i></a>
+        </div>
+      </div>
+    </div>
+    <header class="header">
+      <div class="d-flex align-items-center justify-content-between container-lg">
+        <a href="/" class="header_logo">E-<span class="text-warning">Shopping</span> </a>
+        <nav class="header_navbar">
+          <form class="input__icons" action="/products" method="GET">
+            <input type="text" class="fs-4" placeholder=" Qidirish..." name="search" />
+          </form>
+        </nav>
+
+        <div id="user_nav" class="user_nav d-flex align-items-center">
+            <% if(user?.role === 'Admin') { %>
+          <div class="add_product_link">
+            <a href="/admin">Admin</a>
+          </div>
+          <% } %>
+          <% if(user) { %>
+          <div class="authUser">
+            <div id="user_btn">
+              <img src="<% if(user.photo) { %>  /<%= user.photo %> <% } else { %> /image/commentUser.png <% } %>" alt="Profil"/>
+          </div>
+          <div class="drop d-flex flex-column">
+            <div class="nav-link">
+              <a href="/user/profile"> Profilim</a>
+            </div>
+            <div class="nav-link">
+              <a href="/user/products">E'lonlarim</a>
+            </div>
+            <div class="nav-link">
+              <a href="/user/myFavourite"> Tanlanganlar</a>
+            </div>
+            <div class="nav-link">
+              <a href="/user/messages">Xabarlarim</a>
+            </div>
+            <form action="/logout" method="GET" class="nav-form">
+              <button class="nav-link">Chiqish</button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </header>
+    <header class="mobile__footer mt-5">
+      <div class="d-flex justify-content-around">
+        <a href="/" class="pt-3 mt-3">
+          <i class="fa fa-house d-flex justify-content-center mb-2"></i>
+          <p>Bosh sahifa</p>
+        </a>
+        <a href="/products" class="pt-3 mt-3">
+          <i class="fa fa-bars d-flex justify-content-center mb-2"></i>
+          <p>Kategoriyalar</p>
+        </a>
+        <a href="/add-product" class="pt-3 mt-3">
+          <i class="fa-solid fa-plus d-flex justify-content-center mb-2"></i>
+          <p>E'on qo'shish</p>
+        </a>
+        <a href="<%= user ? '#' : '/signup'%>" class="pt-3 mt-3" id="<%= user ? 'user_footer_btn' : ''%>">
+          <i class="fa fa-user d-flex justify-content-center mb-2"></i>
+          <p>Profil</p>
+        </a>
+        <div class="drop2 d-flex flex-column">
+          <div class="nav-link">
+            <a href="/user/profile"> Profilim</a>
+          </div>
+          <div class="nav-link">
+            <a href="/user/products">E'lonlarim</a>
+          </div>
+          <div class="nav-link">
+            <a href="/user/myFavourite"> Tanlanganlar</a>
+          </div>
+          <div class="nav-link">
+            <a href="/user/messages">Xabarlarim</a>
+          </div>
+          <form action="/logout" method="GET" class="nav-form">
+            <button class="nav-link">Chiqish</button>
+          </form>
+        </div>
+      </div>
+    </header>

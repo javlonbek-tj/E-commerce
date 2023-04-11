@@ -1,5 +1,5 @@
 export default function ProductType(sequelize, Sequelize) {
-  return sequelize.define("productType", {
+  return sequelize.define('productType', {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,

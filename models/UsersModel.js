@@ -21,6 +21,7 @@ export default function UsersModel(sequelize, Sequelize) {
     },
     passwordChangedAt: {
       type: Sequelize.DataTypes.DATE,
+      defaultValue: null,
     },
   });
 }

@@ -1,0 +1,104 @@
+<%- include('./includes/head.ejs') %>
+<div id="nav_carousel" class="carousel slide container-lg mt-5" data-bs-ride="carousel" data-bs-interval="2000">
+    <div class="carousel-inner">
+      <div class="carousel-item active data-bs-interval="2000">
+        <img src="/image/apple-gcf6decaf6_1920.jpg" class="d-block w-100 h-100" alt="..." />
+      </div>
+      <div class="carousel-item">
+        <img src="/image/ecommerce-gd687d20d9_1280.jpg" class="d-block w-100 h-100" alt="..." />
+      </div>
+      <div class="carousel-item">
+        <img src="/image/shopping-4694470_1920.jpg" class="d-block w-100 h-100" alt="..." />
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#nav_carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#nav_carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <section class="home my-5 container-lg" id="home">
+      <div class="home_categories d-flex justify-content-evenly justify-content-center">
+        <div class="me-5 ms-3"><a href="/products?category=estate"><i class="fa-sharp fa-solid fa-house-chimney"> <span>Uy-joy</span></i></a></div>
+        <div class="mx-3"><a href="/products?category=avto"><i class="fa-sharp fa-solid fa-car"> <span>Avto</span></i></a></div>
+        <div class="mx-3"><a href="/products?category=electronics"><i class="fa-sharp fa-solid fa-laptop"> <span>Elektronika</span></i></a></div>
+        <div class="mx-3"><a href="/products?category=jobs"><i class="fa-sharp fa-solid fa-person"> <span>Ish</span></i></a></div>
+      </div>
+  </section>
+
+  <!-- products section starts  -->
+  
+  <!-- Top products -->
+<section class="cards container-lg" id="cards">
+  <% if(topProds.length <= 0) { %>
+  <h2 class="text-center">Top Mahsulotlar mavjud emas</h2>
+  <% } else { %>
+  <div class="top-products d-flex justify-content-between">
+    <h2>Top e'lonlar</h2>
+  </div>
+  <div class="box-container">
+    <% for (let product of topProds) { %>
+    <div class="box">
+      <a href="/products/<%= product.id %>"><img src="/<%= product.img %>" alt="" /></a>
+      <div class="content p-3">
+        <div class="info pb-1 mb-3">
+          <h4 href="#"><%= product.name %></h4>
+        </div>
+        <h3 class="text-center"><%= product.price %>UZS</h3>
+      </div>
+      <div class="card_footer d-flex justify-content-between px-5 pt-2 align-items-center">
+        <% if(user) { %>
+        <form id="myFav">
+          <input type="hidden" value="<%= product.id%>" id="prodId">
+          <button class="bg-white"><i class="fa-regular fa-heart fs-4" id="my_fav"></i></button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <% } %>
+</section>
+
+  <!-- New products -->
+
+<section class="cards container-lg" id="cards">
+  <% if(prods.length <= 0) { %>
+  <h2 class="text-center">Yangi Mahsulotlar mavjud emas</h2>
+  <% } else { %>
+  <div class="top-products d-flex justify-content-between">
+    <h2>Yangi e'lonlar</h2>
+    <a href="/products" class="h4 fst-italic">Barcha e'lonlar<i class="fa-solid fa-arrow-right ms-2"></i></a>
+  </div>
+  <div class="box-container">
+    <% for (let product of prods) { %>
+    <div class="box">
+      <a href="/products/<%= product.id%>"><img src="/<%= product.img %>" alt="" /></a>
+      <div class="content p-3">
+        <div class="info pb-1 mb-3">
+          <h4 href="#"><%= product.name %></h4>
+        </div>
+        <h3 class="text-center"><%= product.price %> UZS</h3>
+      </div>
+      <div class="card_footer d-flex justify-content-between px-5 pt-2 align-items-center">
+        <% if(user) { %>
+        <form id="myFav">
+          <input type="hidden" value="<%= product.id%>" id="prodId">
+          <button class="bg-white"><i class="fa-regular fa-heart fs-4" id="my_fav"></i></button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+    <% } %>
+  </section>
+
+<div class="text-center">
+  <a href="/products" class="btn btn-outline-primary fs-4">Barchasi ko'rish</a>
+</div>
+<section class="mbb"></section>
+<%- include('./includes/end.ejs') %>

@@ -1,5 +1,5 @@
 export default function CartItem(sequelize, Sequelize) {
-  return sequelize.define("cartItem", {
+  return sequelize.define('cartItem', {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,

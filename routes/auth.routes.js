@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { signup, login } from '../controllers/auth-controller.js';
+import { postSignup, postLogin, getSignUp } from '../controllers/auth-controller.js';
 import { check } from 'express-validator';
 
 const router = Router();
 
+router.get('/signup', getSignUp);
 router.post(
   '/signup',
   [
@@ -26,8 +27,8 @@ router.post(
       return true;
     }),
   ],
-  signup,
+  postSignup,
 );
-router.post('/login', login);
+router.post('/login', postLogin);
 
 export default router;

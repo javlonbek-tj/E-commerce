@@ -17,5 +17,9 @@ export default function ProductsModel(sequelize, Sequelize) {
       type: Sequelize.DataTypes.STRING,
       allowNul: false,
     },
+    top: {
+      type: Sequelize.DataTypes.BOOLEAN,
+      defaultValue: 'false',
+    },
   });
 }
