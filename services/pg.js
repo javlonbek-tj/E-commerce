@@ -7,6 +7,7 @@ import CartModel from '../models/CartModel.js';
 import CartItemModel from '../models/CartItemModel.js';
 import TypeBrand from '../models/TypeBrands.js';
 import ProductInfo from '../models/ProductInfo.js';
+import ImageModel from '../models/ImageModel.js';
 import Relations from '../models/Relations.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -32,6 +33,7 @@ export default async function pg() {
     db.carts = await CartModel(sequelize, Sequelize);
     db.cartItems = await CartItemModel(sequelize, Sequelize);
     db.typeBrands = await TypeBrand(sequelize, Sequelize);
+    db.images = await ImageModel(sequelize, Sequelize);
 
     await Relations(db);
     await sequelize.sync({ force: false });

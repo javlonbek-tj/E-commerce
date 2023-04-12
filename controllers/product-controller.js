@@ -5,11 +5,14 @@ import formatProd from '../services/formatProd.js';
 
 export const homePage = async (req, res, next) => {
   try {
-    const topProds = await req.db.products.findAll({ where: { top: { [Op.not]: 'false' } }, raw: true });
+    const topProds = await req.db.products.findAll({
+      where: { top: { [Op.not]: 'false' } },
+      include: req.db.images,
+    });
     const allProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'true' } },
       order: [['createdAt', 'DESC']],
-      raw: true,
+      include: req.db.images,
     });
     if (topProds.length > 0) {
       formatProd(topProds);

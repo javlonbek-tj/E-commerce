@@ -33,31 +33,31 @@
       <p>Fotosurat qo'shilmadi</p>
     </div>
     <div class="col-md-6">
-        <label for="typeId" class="form-label">Mahsulot turi</label>
-        <select
-          class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'type') ? 'invalidInput' : '' %>"
-          aria-label=".form-select-lg example"
-          name="typeId"
-        >
-          <option <%= (hasError && type.name) ? '' : 'selected' %> disabled>Mahsulot turi</option>
-          <% for(let type of types) {%>
-          <option value="<%= type.id%>>"><%= type.name%></option>
-          <% } %>
-        </select>
-      </div>
-      <div class="col-md-6">
-        <label for="brandId" class="form-label">Brand nomi</label>
-        <select
-          class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'brand') ? 'invalidInput' : '' %>"
-          aria-label=".form-select-lg example"
-          name="brandId"
-        >
-          <option <%= (hasError && type.name) ? '' : 'selected' %> disabled>Brand nomi</option>
-          <% for(let brand of brands) {%>
-          <option value="<%= brand.id%>>"><%= brand.name%></option>
-          <% } %>
-        </select>
-      </div>
+      <label for="typeId" class="form-label">Mahsulot turi</label>
+      <select
+        class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'type') ? 'invalidInput' : '' %>"
+        aria-label=".form-select-lg example"
+        name="typeId"
+      >
+        <option selected disabled>Mahsulot turi</option>
+        <% for(let type of types) {%>
+        <option value="<%= type.id%>>"><%= type.name%></option>
+        <% } %>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="brandId" class="form-label">Brand nomi</label>
+      <select
+        class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'brand') ? 'invalidInput' : '' %>"
+        aria-label=".form-select-lg example"
+        name="brandId"
+      >
+        <option selected disabled>Brand nomi</option>
+        <% for(let brand of brands) {%>
+        <option value="<%= brand.id%>>"><%= brand.name%></option>
+        <% } %>
+      </select>
+    </div>
     <div class="col-md-6">
       <label for="name" class="form-label">Qisqa ta'rif</label>
       <input
@@ -66,7 +66,8 @@
         class="form-control fs-3 <%= validationErrors.find(e => e.param === 'name') ? 'invalidInput' : '' %>"
         name="name"
         maxlength="30"
-        placeholder="Hovli uy sotiladi"
+        placeholder="Samsung A22"
+        value="<% if (hasError) { %><%= product.name %><% } %>"
       />
     </div>
     <div class="col-md-6">
@@ -76,27 +77,29 @@
         type="number"
         class="form-control fs-3 <%= validationErrors.find(e => e.param === 'price') ? 'invalidInput' : '' %>"
         name="price"
+        value="<% if (hasError) { %><%= product.price %><% } %>"
       />
     </div>
     <div class="mt-4 d-flex align-items-center mb-5">
-      <input class="me-4" type="checkbox" value="top" name="top" id="top" />
+      <input class="me-4" type="checkbox" value="top" name="top" id="top" <%= (hasError && product.top ===
+      'top') ? 'checked' : '' %> />
       <label class="form-check-label" for="top"> Top </label>
     </div>
-      <div id="inputContainer">
-        <div class="d-md-flex mb-3">
-            <div class="me-3 mb-3">
-            <label for="titleInput" class="form-label">Title:</label>
-            <input type="text"id="title" class="fs-3 form-control" name="title[]" />
-            </div>
-            <div class="">
-                <label for="description" class="form-label">Description:</label>
-                <input type="text" id="description" class="fs-3 form-control" name="description[]" />  
-            </div>
+    <div id="inputContainer">
+      <div class="d-md-flex mb-3">
+        <div class="me-3 mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input type="text" id="title" class="fs-3 form-control" name="title[]" />
         </div>
+        <div class="">
+          <label for="description" class="form-label">Description:</label>
+          <input type="text" id="description" class="fs-3 form-control" name="description[]" />
         </div>
-        <div>
-        <button type="button" class="btn btn-success fs-4" onclick="addInput()">+</button>
-        </div>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success fs-4" onclick="addInput()">+</button>
+    </div>
     <div>
       <button type="submit" class="btn btn-primary fs-4 mts d-inline">Qo'shish</button>
     </div>

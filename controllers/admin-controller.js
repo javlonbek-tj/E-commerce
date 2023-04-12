@@ -1,6 +1,6 @@
 import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
-import ProductInfo from '../models/ProductInfo.js';
+import { deleteImageIfError, getImageUrl } from '../services/file.js';
 
 export const getAdminPage = async (req, res, next) => {
   try {
@@ -125,10 +125,6 @@ export const getAddProduct = async (req, res, next) => {
     res.render('admin/addProduct', {
       pageTitle: 'Mahsulot qo`shish',
       validationErrors: [],
-      product: {
-        name: '',
-        price: '',
-      },
       hasError: null,
       types,
       brands,
@@ -140,20 +136,49 @@ export const getAddProduct = async (req, res, next) => {
 
 export const createProduct = async (req, res, next) => {
   try {
+    let brands = await req.db.productBrand.findAll({ raw: true });
+    brands.map(brand => {
+      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
+      return brand;
+    });
+    let types = await req.db.productType.findAll({ raw: true });
+    types.map(type => {
+      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
+      return type;
+    });
     let { name, price, top, brandId, typeId, ...productInfo } = req.body;
+    const errors = validationResult(req);
     const images = req.files;
+    const imageUrl = getImageUrl(images);
+    let imageError = null;
+    if (imageUrl.length <= 0) {
+      imageError = true;
+    }
+    if (!errors.isEmpty() || imageError) {
+      if (imageUrl.length >= 0) {
+        deleteImageIfError(images);
+      }
+      return res.render('admin/addProduct', {
+        pageTitle: 'Mahsulot qo`shish',
+        validationErrors: errors.array(),
+        product: {
+          name,
+          price,
+          top,
+        },
+        hasError: true,
+        types,
+        brands,
+      });
+    }
     brandId = parseInt(brandId);
     typeId = parseInt(typeId);
     top = top === 'top' ? true : false;
     const data = [];
     for (let i = 0; i < productInfo.title.length; i++) {
-      const name = productInfo.title[i];
+      const title = productInfo.title[i];
       const description = productInfo.description[i];
-      const obj = {
-        name: name,
-        description: description,
-      };
-      data.push(obj);
+      data.push({ title, description });
     }
     const product = await req.db.products.create({
       name,
@@ -163,10 +188,16 @@ export const createProduct = async (req, res, next) => {
       img: images.image1[0].path,
       top,
     });
+    imageUrl.forEach(img => {
+      req.db.images.create({
+        imageUrl: img,
+        productId: product.id,
+      });
+    });
     if (productInfo) {
       data.forEach(i => {
         req.db.productInfo.create({
-          name: i.name,
+          title: i.title,
           description: i.description,
           productId: product.id,
         });
@@ -174,6 +205,7 @@ export const createProduct = async (req, res, next) => {
     }
     res.redirect('/');
   } catch (err) {
+    console.log(err);
     next(new AppError(err, 500));
   }
 };

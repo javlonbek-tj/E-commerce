@@ -13,10 +13,6 @@ export default function ProductsModel(sequelize, Sequelize) {
       type: Sequelize.DataTypes.DECIMAL,
       allowNul: false,
     },
-    img: {
-      type: Sequelize.DataTypes.STRING,
-      allowNul: false,
-    },
     top: {
       type: Sequelize.DataTypes.BOOLEAN,
       defaultValue: 'false',

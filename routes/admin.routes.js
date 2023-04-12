@@ -15,10 +15,15 @@ const router = Router();
 
 router.get('/', isAuth, getAdminPage);
 router.get('/prodType', isAuth, getProdTypePage);
-router.post('/type', [check('name', 'Mahsulot turi yozilmadi').not().isEmpty()], isAuth, createType);
+router.post('/type', isAuth, [check('name', 'Mahsulot turi yozilmadi').not().isEmpty()], createType);
 router.get('/prodBrand', isAuth, getProdBrandPage);
 router.post('/brand', [check('name', 'Mahsulot brandi yozilmadi').not().isEmpty()], isAuth, createBrand);
 router.get('/addProduct', isAuth, getAddProduct);
-router.post('/addProduct', isAuth, createProduct);
+router.post(
+  '/addProduct',
+  isAuth,
+  [check('name').not().isEmpty().isLength({ max: 30 }), check('price').not().isEmpty().isInt()],
+  createProduct,
+);
 
 export default router;

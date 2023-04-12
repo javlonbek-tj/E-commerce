@@ -1,11 +1,11 @@
 export default function ProductInfo(sequelize, Sequelize) {
-  return sequelize.define("productInfo", {
+  return sequelize.define('productInfo', {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    title: {
       type: Sequelize.DataTypes.STRING,
       allowNul: false,
     },
