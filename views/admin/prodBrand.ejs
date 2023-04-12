@@ -4,15 +4,15 @@
     <% if(errorMessage) { %>
     <h3 class="text-center text-danger mb-5"><%= errorMessage %></h3>
     <% } %>
-    <form class="input-group mb-5" action="/admin/type" method="POST">
-      <input type="text" class="form-control fs-3" placeholder="Mahsulot turi" name="name" />
+    <form class="input-group mb-5" action="/admin/brand" method="POST">
+      <input type="text" class="form-control fs-3" placeholder="Mahsulot brandi" name="name" />
       <button class="btn btn-outline-secondary fs-3" type="submit" id="button-addon2">Qo'shish</button>
     </form>
     <div class="mts">
-      <h3>Barcha mahsulot turlari:</h3>
+      <h3>Barcha mahsulot brandlari:</h3>
       <ul>
-        <% for(type of types) { %>
-        <li class="fs-3"><%= type.name %></li>
+        <% for(brand of brands) { %>
+        <li class="fs-3"><%= brand.name %></li>
         <% } %>
       </ul>
     </div>

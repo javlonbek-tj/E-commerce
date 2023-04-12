@@ -65,10 +65,9 @@ export const getOneProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await req.db.products.findOne({
-      where: { id },
-      raw: true,
+      where: { id: id },
+      include: req.db.productInfo,
     });
-    console.log(product);
     res.render('prod-detail', {
       pageTitle: `${product.name}`,
       product,

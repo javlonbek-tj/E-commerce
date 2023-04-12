@@ -1,0 +1,105 @@
+<%- include('../includes/head.ejs') %>
+<div class="product_adding mtt">
+  <form
+    id="myForm"
+    class="row g-3 fs-4"
+    enctype="multipart/form-data"
+    action="/admin/addProduct"
+    method="POST"
+  >
+    <h3 class="text-center d-lg-none">Fotosuratni qo'shing</h3>
+    <div class="d-flex mb-5">
+      <div class="d-lg-flex align-items-center d-none d-lg-block me-3"><h3>Fotosuratni qo'shing</h3></div>
+      <div class="form-element me-3">
+        <input type="file" id="file-1" accept="image/*" class="d-none" name="image1" />
+        <label for="file-1" id="file-1-preview">
+          <img src="/image/add_image.png" alt="" class="img-fluid bg-light" />
+        </label>
+      </div>
+      <div class="form-element me-3">
+        <input type="file" id="file-2" accept="image/*" class="d-none" name="image2" />
+        <label for="file-2" id="file-2-preview">
+          <img src="/image/add_image.png" alt="" class="img-fluid bg-light" />
+        </label>
+      </div>
+      <div class="form-element">
+        <input type="file" id="file-3" accept="image/*" class="d-none" name="image3" />
+        <label for="file-3" id="file-3-preview">
+          <img src="/image/add_image.png" alt="" class="img-fluid bg-light" />
+        </label>
+      </div>
+    </div>
+    <div class="my-3 text-center text-danger <%= (null) ? '' : 'd-none'%>">
+      <p>Fotosurat qo'shilmadi</p>
+    </div>
+    <div class="col-md-6">
+        <label for="typeId" class="form-label">Mahsulot turi</label>
+        <select
+          class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'type') ? 'invalidInput' : '' %>"
+          aria-label=".form-select-lg example"
+          name="typeId"
+        >
+          <option <%= (hasError && type.name) ? '' : 'selected' %> disabled>Mahsulot turi</option>
+          <% for(let type of types) {%>
+          <option value="<%= type.id%>>"><%= type.name%></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="brandId" class="form-label">Brand nomi</label>
+        <select
+          class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'brand') ? 'invalidInput' : '' %>"
+          aria-label=".form-select-lg example"
+          name="brandId"
+        >
+          <option <%= (hasError && type.name) ? '' : 'selected' %> disabled>Brand nomi</option>
+          <% for(let brand of brands) {%>
+          <option value="<%= brand.id%>>"><%= brand.name%></option>
+          <% } %>
+        </select>
+      </div>
+    <div class="col-md-6">
+      <label for="name" class="form-label">Qisqa ta'rif</label>
+      <input
+        id="name"
+        type="text"
+        class="form-control fs-3 <%= validationErrors.find(e => e.param === 'name') ? 'invalidInput' : '' %>"
+        name="name"
+        maxlength="30"
+        placeholder="Hovli uy sotiladi"
+      />
+    </div>
+    <div class="col-md-6">
+      <label for="price" class="form-label">Narxi</label>
+      <input
+        id="price"
+        type="number"
+        class="form-control fs-3 <%= validationErrors.find(e => e.param === 'price') ? 'invalidInput' : '' %>"
+        name="price"
+      />
+    </div>
+    <div class="mt-4 d-flex align-items-center mb-5">
+      <input class="me-4" type="checkbox" value="top" name="top" id="top" />
+      <label class="form-check-label" for="top"> Top </label>
+    </div>
+      <div id="inputContainer">
+        <div class="d-md-flex mb-3">
+            <div class="me-3 mb-3">
+            <label for="titleInput" class="form-label">Title:</label>
+            <input type="text"id="title" class="fs-3 form-control" name="title[]" />
+            </div>
+            <div class="">
+                <label for="description" class="form-label">Description:</label>
+                <input type="text" id="description" class="fs-3 form-control" name="description[]" />  
+            </div>
+        </div>
+        </div>
+        <div>
+        <button type="button" class="btn btn-success fs-4" onclick="addInput()">+</button>
+        </div>
+    <div>
+      <button type="submit" class="btn btn-primary fs-4 mts d-inline">Qo'shish</button>
+    </div>
+  </form>
+</div>
+<%- include('../includes/end.ejs') %>

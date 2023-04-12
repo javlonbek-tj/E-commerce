@@ -4,12 +4,12 @@ import dotenv from 'dotenv';
 import AppError from './services/AppError.js';
 import { globalErrorHandler, get404 } from './controllers/error.controller.js';
 import path from 'path';
-import fileUpload from 'express-fileupload';
 import { isAuth } from './controllers/auth-controller.js';
 import adminRoutes from './routes/admin.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/product.routes.js';
 import cookieParser from 'cookie-parser';
+import upload from './services/fileUpload.js';
 dotenv.config();
 
 const app = express();
@@ -47,7 +47,7 @@ async function start() {
       next();
     });
 
-    app.use(fileUpload());
+    app.use(upload.fields([{ name: 'image1' }, { name: 'image2' }, { name: 'image3' }]));
 
     app.use(productRoutes);
     app.use('/admin', adminRoutes);
