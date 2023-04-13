@@ -81,7 +81,7 @@
               <li><span> <%= info.title%>:</span> &nbsp <%= info.description %></li>
               <% }%>
             </ul>
-            <% if(user) {%> <% if(user.role == 'Admin') {%>
+            <% if(user && user.role == 'Admin') {%>
             <div class="d-flex justify-content-evenly">
               <form class="pb-3 d-flex justify-content-evenly" action="/admin/deleteProd" method="POST">
                 <input type="hidden" name="prodId" value="<%= product.id%>" />
@@ -91,7 +91,6 @@
               <div class="pb-3 d-flex justify-content-evenly details_buttons">
                 <button type="submit">Savatga qo'shish</button>
               </div>
-              <% } %>
             </div>
           </div>
         </div>

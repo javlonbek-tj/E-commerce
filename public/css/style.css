@@ -476,7 +476,7 @@ input:-webkit-autofill:active {
     font-size: 55%;
   }
   .header_navbar .input__icons {
-    width: 45rem;
+    width: 30rem;
   }
   .home_categories a {
     padding: 1.5rem 5rem;
@@ -538,7 +538,7 @@ input:-webkit-autofill:active {
     font-size: 1.2rem;
   }
   .header_navbar {
-    width: 100%;
+    width: 28rem;
   }
   .header_navbar .input__icons {
     margin: auto;
@@ -689,4 +689,31 @@ input:-webkit-autofill:active {
   .header_logo {
     display: none;
   }
+}
+
+/* Style for product image */
+.product-image {
+  max-width: 100px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for plus and minus buttons */
+.btn-quantity {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.prodNumber {
+  width: 140px;
+}
+
+/* Style for container */
+.cart {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }

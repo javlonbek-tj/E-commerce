@@ -43,3 +43,44 @@ function removeInput(button) {
   const div = button.parentNode.parentNode;
   div.parentNode.removeChild(div);
 }
+
+// Cart
+
+// Get quantity input and subtotal element
+var quantityInput = document.getElementById('quantity');
+var subtotalElement = document.getElementById('subtotal');
+
+// Get plus and minus buttons
+var plusBtn = document.getElementById('plusBtn');
+var minusBtn = document.getElementById('minusBtn');
+
+// Add event listener for plus button
+plusBtn.addEventListener('click', function () {
+  var quantity = parseInt(quantityInput.value);
+  quantityInput.value = quantity + 1;
+  calculateSubtotal();
+});
+
+// Add event listener for minus button
+minusBtn.addEventListener('click', function () {
+  var quantity = parseInt(quantityInput.value);
+  if (quantity > 1) {
+    quantityInput.value = quantity - 1;
+    calculateSubtotal();
+  }
+});
+
+// Add event listener for quantity input
+quantityInput.addEventListener('change', function () {
+  calculateSubtotal();
+});
+
+const calculation = document.querySelector('#calculation');
+// Function to calculate subtotal
+function calculateSubtotal() {
+  var quantity = parseInt(quantityInput.value);
+  var price = 19.99; // Update with actual product price
+  var subtotal = quantity * price;
+  calculation.textContent = `Jami ${quantity} ta`;
+  subtotalElement.textContent = '$' + subtotal.toFixed(2);
+}

@@ -4,13 +4,16 @@ import dotenv from 'dotenv';
 import AppError from './services/AppError.js';
 import { globalErrorHandler, get404 } from './controllers/error.controller.js';
 import path from 'path';
+import cookieParser from 'cookie-parser';
+import upload from './services/fileUpload.js';
+dotenv.config();
+
+// Import routes
 import { isAuth } from './controllers/auth-controller.js';
 import adminRoutes from './routes/admin.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/product.routes.js';
-import cookieParser from 'cookie-parser';
-import upload from './services/fileUpload.js';
-dotenv.config();
+import shopRoutes from './routes/shop.routes.js';
 
 const app = express();
 
@@ -52,6 +55,7 @@ async function start() {
     app.use(productRoutes);
     app.use('/admin', adminRoutes);
     app.use(authRoutes);
+    app.use(shopRoutes);
 
     app.use(get404);
     app.use(globalErrorHandler);
