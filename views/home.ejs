@@ -42,18 +42,22 @@
   <div class="box-container">
     <% for (let product of topProds) { %>
     <div class="box">
-      <a href="/products/<%= product.id %>"><img src="/<%= product.img %>" alt="" /></a>
+      <a href="/products/<%= product.id %>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
       <div class="content p-3">
         <div class="info pb-1 mb-3">
           <h4 href="#"><%= product.name %></h4>
         </div>
         <h3 class="text-center"><%= product.price %>UZS</h3>
       </div>
-      <div class="card_footer d-flex justify-content-between px-5 pt-2 align-items-center">
+      <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
         <% if(user) { %>
         <form id="myFav">
           <input type="hidden" value="<%= product.id%>" id="prodId">
           <button class="bg-white"><i class="fa-regular fa-heart fs-4" id="my_fav"></i></button>
+        </form>
+        <form id="cart">
+          <input type="hidden" value="<%= product.id%>" id="prodId">
+          <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4" id="my_fav"></i></button>
         </form>
         <% } %>
       </div>
@@ -76,18 +80,22 @@
   <div class="box-container">
     <% for (let product of prods) { %>
     <div class="box">
-      <a href="/products/<%= product.id%>"><img src="/<%= product.img %>" alt="" /></a>
+      <a href="/products/<%= product.id%>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
       <div class="content p-3">
         <div class="info pb-1 mb-3">
           <h4 href="#"><%= product.name %></h4>
         </div>
         <h3 class="text-center"><%= product.price %> UZS</h3>
       </div>
-      <div class="card_footer d-flex justify-content-between px-5 pt-2 align-items-center">
+      <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
         <% if(user) { %>
         <form id="myFav">
           <input type="hidden" value="<%= product.id%>" id="prodId">
           <button class="bg-white"><i class="fa-regular fa-heart fs-4" id="my_fav"></i></button>
+        </form>
+        <form id="cart">
+          <input type="hidden" value="<%= product.id%>" id="prodId">
+          <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4" id="my_fav"></i></button>
         </form>
         <% } %>
       </div>

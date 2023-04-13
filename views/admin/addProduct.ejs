@@ -29,13 +29,15 @@
         </label>
       </div>
     </div>
-    <div class="my-3 text-center text-danger <%= (null) ? '' : 'd-none'%>">
+    <div
+      class="my-3 text-center text-danger <%= (hasError && product.imageUrl.length <= 0) ? '' : 'd-none'%>"
+    >
       <p>Fotosurat qo'shilmadi</p>
     </div>
     <div class="col-md-6">
       <label for="typeId" class="form-label">Mahsulot turi</label>
       <select
-        class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'type') ? 'invalidInput' : '' %>"
+        class="form-select form-select-lg mb-3 fs-4 <%= (hasError && !product.typeId) ? 'invalidInput' : '' %>"
         aria-label=".form-select-lg example"
         name="typeId"
       >
@@ -48,7 +50,7 @@
     <div class="col-md-6">
       <label for="brandId" class="form-label">Brand nomi</label>
       <select
-        class="form-select form-select-lg mb-3 fs-4 <%= validationErrors.find(e => e.param === 'brand') ? 'invalidInput' : '' %>"
+        class="form-select form-select-lg mb-3 fs-4 <%= (hasError && !product.brandId) ? 'invalidInput' : '' %>"
         aria-label=".form-select-lg example"
         name="brandId"
       >

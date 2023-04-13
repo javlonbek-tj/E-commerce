@@ -50,8 +50,7 @@ export function getImageUrl(images) {
   return imageUrl;
 }
 
-export function deleteImageIfError(images) {
-  const imageUrl = getImageUrl(images);
+export function deleteImageIfError(imageUrl) {
   if (imageUrl.length >= 2) {
     deleteFiles(imageUrl);
   } else {

@@ -14,12 +14,12 @@
             name="email"
             id="email"
             placeholder="Email"
-            value="<%= (product.email === '@') ? ' ' : product.email %>"
+            value="<%= (candidate.email === '@') ? ' ' : candidate.email %>"
           />
         </div>
         <div class="form-group mb-5">
           <label for="pass"><i class="fa-solid fa-lock me-4 fs-5"></i></label>
-          <input type="password" name="password" id="pass" placeholder="Parol" value="<%= product.password %>" />
+          <input type="password" name="password" id="password" placeholder="Parol" value="<%= candidate.password %>" />
         </div>
         <div class="form-button">
           <input type="submit" name="signup" id="signup" class="form-submit py-3 px-5" value="Kirish" />

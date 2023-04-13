@@ -68,29 +68,12 @@ export const getOneProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await req.db.products.findOne({
-      where: { id: id },
-      include: req.db.productInfo,
+      where: { id },
+      include: [{ model: req.db.productInfo }, { model: req.db.images }],
     });
     res.render('prod-detail', {
       pageTitle: `${product.name}`,
       product,
-    });
-  } catch (err) {
-    next(new AppError(err, 500));
-  }
-};
-
-export const updateProduct = async (req, res, next) => {
-  try {
-    const product = await req.db.products.findOne({
-      where: { id },
-      include: req.db.productInfos,
-    });
-    res.status(200).json({
-      success: true,
-      data: {
-        product,
-      },
     });
   } catch (err) {
     next(new AppError(err, 500));

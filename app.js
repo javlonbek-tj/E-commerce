@@ -31,7 +31,7 @@ async function start() {
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
 
-    app.use(express.static(path.resolve('images')));
+    app.use('/images', express.static(path.resolve('images')));
     app.use(express.static(path.resolve('public')));
 
     app.use((req, res, next) => {

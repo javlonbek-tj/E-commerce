@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { postSignup, postLogin, getSignUp } from '../controllers/auth-controller.js';
+import { postSignup, postLogin, getSignUp, getLogin, logout } from '../controllers/auth-controller.js';
 import { check } from 'express-validator';
 
 const router = Router();
@@ -29,6 +29,8 @@ router.post(
   ],
   postSignup,
 );
+router.get('/login', getLogin);
 router.post('/login', postLogin);
+router.get('/logout', logout);
 
 export default router;

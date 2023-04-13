@@ -8,6 +8,7 @@ import {
   getProdTypePage,
   createType,
   getAddProduct,
+  deleteProduct,
 } from '../controllers/admin-controller.js';
 import { isAuth } from '../controllers/auth-controller.js';
 
@@ -25,5 +26,6 @@ router.post(
   [check('name').not().isEmpty().isLength({ max: 30 }), check('price').not().isEmpty().isInt()],
   createProduct,
 );
+router.post('/deleteProd', deleteProduct);
 
 export default router;

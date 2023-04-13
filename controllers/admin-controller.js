@@ -1,6 +1,6 @@
 import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
-import { deleteImageIfError, getImageUrl } from '../services/file.js';
+import { deleteImageIfError, getImageUrl, deleteImage } from '../services/file.js';
 
 export const getAdminPage = async (req, res, next) => {
   try {
@@ -125,6 +125,14 @@ export const getAddProduct = async (req, res, next) => {
     res.render('admin/addProduct', {
       pageTitle: 'Mahsulot qo`shish',
       validationErrors: [],
+      product: {
+        name: '',
+        price: '',
+        top: '',
+        brandId: '',
+        typeId: '',
+        imageUrl: '',
+      },
       hasError: null,
       types,
       brands,
@@ -154,9 +162,9 @@ export const createProduct = async (req, res, next) => {
     if (imageUrl.length <= 0) {
       imageError = true;
     }
-    if (!errors.isEmpty() || imageError) {
-      if (imageUrl.length >= 0) {
-        deleteImageIfError(images);
+    if (!errors.isEmpty() || imageError || !brandId || !typeId) {
+      if (imageUrl.length > 0) {
+        deleteImageIfError(imageUrl);
       }
       return res.render('admin/addProduct', {
         pageTitle: 'Mahsulot qo`shish',
@@ -165,6 +173,9 @@ export const createProduct = async (req, res, next) => {
           name,
           price,
           top,
+          brandId,
+          typeId,
+          imageUrl,
         },
         hasError: true,
         types,
@@ -206,6 +217,23 @@ export const createProduct = async (req, res, next) => {
     res.redirect('/');
   } catch (err) {
     console.log(err);
+    next(new AppError(err, 500));
+  }
+};
+
+export const deleteProduct = async (req, res, next) => {
+  try {
+    const { prodId } = req.body;
+    const product = await req.db.products.findOne({ where: { id: prodId }, include: req.db.images });
+    await req.db.products.destroy({
+      where: { id: prodId },
+    });
+    const imageUrl = product.images.map(img => {
+      return img.imageUrl;
+    });
+    deleteImage(imageUrl);
+    res.redirect('/');
+  } catch (err) {
     next(new AppError(err, 500));
   }
 };

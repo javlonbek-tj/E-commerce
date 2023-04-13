@@ -85,15 +85,38 @@ export const postSignup = async (req, res, next) => {
   }
 };
 
+export const getLogin = async (req, res, next) => {
+  try {
+    res.render('auth/login', {
+      pageTitle: `Kirish`,
+      errorMessage: null,
+      candidate: {
+        email: '',
+        password: '',
+      },
+    });
+  } catch (err) {
+    next(new AppError(err, 500));
+  }
+};
+
 export const postLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await req.db.users.findOne({ where: { email } });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!user || !isMatch) {
-      return next(new AppError('Incorrect email or password', 401));
+      return res.render('auth/login', {
+        pageTitle: `Kirish`,
+        errorMessage: `Email yoki parol xato`,
+        candidate: {
+          email,
+          password,
+        },
+      });
     }
     createSendToken(user, res);
+    res.redirect('/');
   } catch (err) {
     next(new AppError(err, 500));
   }
@@ -102,10 +125,7 @@ export const postLogin = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     res.clearCookie('jwt');
-    res.json({
-      success: true,
-      message: 'User successfully logged out',
-    });
+    res.redirect('/');
   } catch (err) {
     next(new AppError(err, 500));
   }
