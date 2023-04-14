@@ -156,17 +156,45 @@ cartItems.forEach(cartItem => {
     subtotal = subtotal.toFixed(2);
     calculation.textContent = `Jami ${quantity} ta`;
     subtotalElement.textContent = subtotal + ' ' + 'UZS';
+
+    const totalProdPrice = document.querySelector('.totalProdPrice');
+    const total = Array.from(cartItems).reduce((accumulator, cartItem) => {
+      const subtotalElement = cartItem.querySelector('.subtotal').textContent.split(' ')[0];
+      return accumulator + +subtotalElement;
+    }, 0);
+    totalProdPrice.textContent = total;
   }
 });
 
+const totalProdPrice = document.querySelector('.totalProdPrice');
+const total = Array.from(cartItems).reduce((accumulator, cartItem) => {
+  const subtotalElement = cartItem.querySelector('.subtotal').textContent.split(' ')[0];
+  return accumulator + +subtotalElement;
+}, 0);
+totalProdPrice.textContent = total;
 //Cart
+
+const headerCartIcon = document.querySelector('.headerCartIcon');
+const headerCartNumber = document.querySelector('.headerCartNumber');
+const headerCart = document.querySelector('.headerCart');
+const hideAlert = () => {
+  headerCartIcon.classList.remove('fs-2');
+  headerCartNumber.classList.remove('fs-4');
+};
+
+// type is 'success' or 'error'
+const showAlert = () => {
+  hideAlert();
+  headerCartIcon.classList.add('fs-2');
+  headerCartNumber.classList.add('fs-4');
+  window.setTimeout(hideAlert, 1000);
+};
 
 // JavaScript
 const carts = document.querySelectorAll('#cart');
 carts.forEach(cart => {
   cart.addEventListener('submit', async event => {
     event.preventDefault(); // prevent form submission
-    const headerCart = document.querySelector('.headerCart');
     const prodId = event.target.querySelector('#prodId').value; // get prodId value
     const url = '/cart'; // replace with your endpoint URL
     try {
@@ -179,9 +207,14 @@ carts.forEach(cart => {
       });
       if (response.ok) {
         // Handle success
+        showAlert();
         const res = await response.json();
         console.log('Product added to cart successfully!');
-        headerCart.textContent = `${res.data.cartProducts.length}`;
+        if (!res.data.hasProduct) {
+          headerCartNumber.textContent = isNaN(parseInt(headerCartNumber.textContent))
+            ? 1
+            : parseInt(headerCartNumber.textContent) + 1;
+        }
       } else {
         // Handle error
         console.error('Failed to add product to cart');
@@ -216,6 +249,9 @@ deleteCartForms.forEach(deleteCartForm => {
       if (response.ok) {
         // Handle the success response
         deleteCartForm.closest('.cart-item').remove();
+        headerCartNumber.textContent = isNaN(parseInt(headerCartNumber.textContent))
+          ? 1
+          : parseInt(headerCartNumber.textContent) - 1;
         console.log(`Cart item with ID ${cartItemId} deleted successfully.`);
       } else {
         // Handle the error response

@@ -11,9 +11,13 @@ export const getCart = async (req, res, next) => {
         return product;
       }),
     );
+    const total = products.reduce((accumulator, product) => {
+      return accumulator + +product.price;
+    }, 0);
     res.render('shop/cart', {
       pageTitle: 'Savatdagi mahsulotlar',
       products,
+      total,
     });
   } catch (err) {
     next(new AppError(err, 500));
@@ -35,8 +39,10 @@ export const postCart = async (req, res, next) => {
       }),
     );
     let product;
+    let hasProduct;
     if (products.length > 0) {
       product = products[0];
+      hasProduct = true;
     }
     if (product) {
       const oldQuantity = product.cartItem.quantity;
@@ -49,6 +55,7 @@ export const postCart = async (req, res, next) => {
       success: true,
       data: {
         cartProducts,
+        hasProduct,
       },
     });
   } catch (err) {

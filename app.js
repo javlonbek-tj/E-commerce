@@ -50,6 +50,15 @@ async function start() {
       next();
     });
 
+    app.use(async (req, res, next) => {
+      if (req.user) {
+        const userCart = await req.user.getCart();
+        const cartProds = await userCart.getProducts();
+        res.locals.cartProdsNumber = cartProds.length || '';
+      }
+      next();
+    });
+
     app.use(upload.fields([{ name: 'image1' }, { name: 'image2' }, { name: 'image3' }]));
 
     app.use(productRoutes);
