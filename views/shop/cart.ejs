@@ -1,28 +1,44 @@
-<%- include('../includes/head.ejs') %>
-<div class="container cart mt-5">
-  <div class="row align-items-center">
-    <div class="col-md-5 d-flex align-items-center">
-      <img src="/images/1681376512722-Isi_LCD_TV.jpg" alt="Product Image" class="product-image" />
-      <h4 class="ms-3">Product Name</h4>
+<%- include('../includes/head.ejs') %> <% for(let product of products) {%>
+<div class="container cart mt-5 cart-item">
+  <div class="d-flex align-items-center justify-content-between mb-5">
+    <div class="d-flex align-items-center cartImg">
+      <img src="<%= product.images[0].imageUrl %>" alt="Product Image" class="product-image" />
+      <h4 class="ms-3 mt-3"><%= product.name %></h4>
     </div>
-    <div class="col-md-5">
-      <h4>Narxi: $19.99</h4>
+    <div>
+      <div class="d-flex">
+        <span class="h4">Narxi:</span> &nbsp
+        <h4 id="productPrice"><%= product.price%></h4>
+        &nbsp
+        <span class="h4">UZS</span>
+      </div>
+      <input type="hidden" name="prodId" value="<%= product.id %>" id="prodId" />
       <div class="form-group mt-3">
         <div class="prodNumber input-group">
-          <div class="input-group-prepend">
-            <button class="btn btn-warning btn-quantity" type="button" id="minusBtn">-</button>
-          </div>
-          <input type="text" class="form-control fs-3 text-center" id="quantity" value="1" min="1" disabled />
-          <div class="input-group-append">
-            <button class="btn btn-warning btn-quantity" type="button" id="plusBtn">+</button>
-          </div>
+          <form class="input-group-prepend minus-btn">
+            <button class="btn btn-warning btn-quantity border border-danger" type="button">-</button>
+          </form>
+          <input
+            type="text"
+            class="form-control fs-3 text-center quantity-input border border-danger"
+            value="<%= product.cartItem.quantity%>"
+            min="1"
+            disabled
+          />
+          <form class="input-group-append plus-btn">
+            <button class="btn btn-warning btn-quantity border border-danger" type="button">+</button>
+          </form>
         </div>
       </div>
     </div>
-    <div class="col-md-2">
-      <h3 id="calculation" class="fw-bold text-danger">Jami</h3>
-      <p class="h4" id="subtotal">$19.99</p>
+    <div>
+      <h3 id="calculation" class="fw-bold text-danger"></h3>
+      <p class="h2 subtotal"><%= product.price%></p>
+      <form class="text-center mt-5 fs-3 deleteCart">
+        <input type="hidden" value="<%= product.cartItem.id %>" class="cartItemId" />
+        <button type="submit" class="bg-light"><i class="fa-solid fa-trash text-danger"></i></button>
+      </form>
     </div>
   </div>
 </div>
-<%- include('../includes/end.ejs') %>
+<% }%> <%- include('../includes/end.ejs') %>

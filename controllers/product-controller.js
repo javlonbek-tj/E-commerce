@@ -59,7 +59,6 @@ export const getAllProducts = async (req, res, next) => {
       },
     });
   } catch (err) {
-    console.log(err);
     next(new AppError(err, 500));
   }
 };

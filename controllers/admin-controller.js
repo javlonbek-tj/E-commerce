@@ -216,7 +216,6 @@ export const createProduct = async (req, res, next) => {
     }
     res.redirect('/');
   } catch (err) {
-    console.log(err);
     next(new AppError(err, 500));
   }
 };

@@ -3,7 +3,7 @@ let drop2 = document.querySelector('.drop2');
 
 /* drop active */
 
-document.querySelector('#user_btn').addEventListener('click', () => {
+/* document.querySelector('#user_btn').addEventListener('click', () => {
   drop.classList.toggle('active');
 });
 
@@ -17,7 +17,7 @@ drop.addEventListener('click', () => {
 
 drop2.addEventListener('click', () => {
   drop2.classList.remove('active');
-});
+}); */
 
 function addInput() {
   const container = document.getElementById('inputContainer');
@@ -46,41 +46,187 @@ function removeInput(button) {
 
 // Cart
 
-// Get quantity input and subtotal element
-var quantityInput = document.getElementById('quantity');
-var subtotalElement = document.getElementById('subtotal');
+// Get all cart items
+const cartItems = document.querySelectorAll('.cart-item');
 
-// Get plus and minus buttons
-var plusBtn = document.getElementById('plusBtn');
-var minusBtn = document.getElementById('minusBtn');
+// Loop through all cart items
+cartItems.forEach(cartItem => {
+  // Get quantity input and subtotal element for current cart item
+  const quantityInput = cartItem.querySelector('.quantity-input');
+  const subtotalElement = cartItem.querySelector('.subtotal');
+  const prodId = cartItem.querySelector('#prodId').value;
 
-// Add event listener for plus button
-plusBtn.addEventListener('click', function () {
-  var quantity = parseInt(quantityInput.value);
-  quantityInput.value = quantity + 1;
-  calculateSubtotal();
-});
+  // Get plus and minus buttons for current cart item
+  const plusBtn = cartItem.querySelector('.plus-btn');
+  const minusBtn = cartItem.querySelector('.minus-btn');
 
-// Add event listener for minus button
-minusBtn.addEventListener('click', function () {
-  var quantity = parseInt(quantityInput.value);
-  if (quantity > 1) {
-    quantityInput.value = quantity - 1;
-    calculateSubtotal();
+  let quantity;
+  if (quantityInput) {
+    quantity = quantityInput.value;
+  }
+
+  // Add event listener for plus button
+  if (plusBtn) {
+    plusBtn.addEventListener('click', async function () {
+      quantity = parseInt(quantityInput.value);
+      quantityInput.value = quantity + 1;
+      calculateSubtotal();
+      const url = '/cart/increaseQty'; // replace with your endpoint URL
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({ quantity, prodId }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          // Handle success
+          console.log('Product added to cart successfully!');
+        } else {
+          // Handle error
+          console.error('Failed to add product to cart');
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Failed to fetch data', error);
+      }
+    });
+  }
+
+  // Add event listener for minus button
+  if (minusBtn) {
+    minusBtn.addEventListener('click', async function () {
+      quantity = parseInt(quantityInput.value);
+      if (quantity > 1) {
+        quantityInput.value = quantity - 1;
+        calculateSubtotal();
+        const url = '/cart/decreaseQty'; // replace with your endpoint URL
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ quantity, prodId }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (response.ok) {
+            // Handle success
+            console.log('Product added to cart successfully!');
+          } else {
+            // Handle error
+            console.error('Failed to add product to cart');
+          }
+        } catch (error) {
+          // Handle error
+          console.error('Failed to fetch data', error);
+        }
+      }
+    });
+  }
+
+  // Add event listener for quantity input
+  if (quantityInput) {
+    quantityInput.addEventListener('change', function () {
+      calculateSubtotal();
+    });
+  }
+
+  const productPriceElement = cartItem.querySelector('#productPrice');
+  let price;
+  if (productPriceElement) {
+    price = productPriceElement.innerText;
+  }
+  const calculation = cartItem.querySelector('#calculation');
+  if (calculation) {
+    calculation.textContent = `Jami ${quantity} ta`;
+  }
+
+  if (subtotalElement) {
+    const total = (quantity * parseFloat(price)).toFixed(2);
+    subtotalElement.textContent = `${total} UZS`;
+  }
+
+  // Function to calculate subtotal
+  function calculateSubtotal() {
+    quantity = parseInt(quantityInput.value);
+    let subtotal = quantity * parseFloat(price);
+    subtotal = subtotal.toFixed(2);
+    calculation.textContent = `Jami ${quantity} ta`;
+    subtotalElement.textContent = subtotal + ' ' + 'UZS';
   }
 });
 
-// Add event listener for quantity input
-quantityInput.addEventListener('change', function () {
-  calculateSubtotal();
+//Cart
+
+// JavaScript
+const carts = document.querySelectorAll('#cart');
+carts.forEach(cart => {
+  cart.addEventListener('submit', async event => {
+    event.preventDefault(); // prevent form submission
+    const prodId = event.target.querySelector('#prodId').value; // get prodId value
+    const url = '/cart'; // replace with your endpoint URL
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({ prodId }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        // Handle success
+        console.log('Product added to cart successfully!');
+        location.assign('/cart');
+      } else {
+        // Handle error
+        console.error('Failed to add product to cart');
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Failed to fetch data', error);
+    }
+  });
 });
 
-const calculation = document.querySelector('#calculation');
-// Function to calculate subtotal
-function calculateSubtotal() {
-  var quantity = parseInt(quantityInput.value);
-  var price = 19.99; // Update with actual product price
-  var subtotal = quantity * price;
-  calculation.textContent = `Jami ${quantity} ta`;
-  subtotalElement.textContent = '$' + subtotal.toFixed(2);
-}
+// JavaScript code
+const deleteCartForms = document.querySelectorAll('.deleteCart');
+deleteCartForms.forEach(deleteCartForm => {
+  deleteCartForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    // Get the cart item ID from the hidden input field in the current form
+    const cartItemId = deleteCartForm.querySelector('.cartItemId').value;
+
+    try {
+      // Make a POST request to delete the cart item
+      const response = await fetch('/deleteCart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartItemId }),
+      });
+
+      // Check if the request was successful
+      if (response.ok) {
+        // Handle the success response
+        deleteCartForm.closest('.cart-item').remove();
+        console.log(`Cart item with ID ${cartItemId} deleted successfully.`);
+      } else {
+        // Handle the error response
+        console.error(
+          `Failed to delete cart item with ID ${cartItemId}:`,
+          response.status,
+          response.statusText,
+        );
+      }
+    } catch (error) {
+      // Handle any exceptions or network errors
+      console.error(`Error occurred while deleting cart item with ID ${cartItemId}:`, error);
+    }
+  });
+});

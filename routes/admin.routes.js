@@ -23,7 +23,7 @@ router.get('/addProduct', isAuth, getAddProduct);
 router.post(
   '/addProduct',
   isAuth,
-  [check('name').not().isEmpty().isLength({ max: 30 }), check('price').not().isEmpty().isInt()],
+  [check('name').not().isEmpty().isLength({ max: 30 }), check('price').not().isEmpty()],
   createProduct,
 );
 router.post('/deleteProd', deleteProduct);

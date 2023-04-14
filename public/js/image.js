@@ -1,5 +1,5 @@
 /* Image upload */
-function previewBeforeUpload(id) {
+/* function previewBeforeUpload(id) {
   document.querySelector('#' + id).addEventListener('change', function (e) {
     if (e.target.files.length == 0) {
       return;
@@ -11,4 +11,4 @@ function previewBeforeUpload(id) {
 }
 previewBeforeUpload('file-1');
 previewBeforeUpload('file-2');
-previewBeforeUpload('file-3');
+previewBeforeUpload('file-3'); */

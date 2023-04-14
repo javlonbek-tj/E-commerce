@@ -1,6 +1,6 @@
 export default function formatProd(prods) {
   prods.map(p => {
-    p.price = parseInt(p.price).toLocaleString();
+    p.price = parseFloat(p.price).toLocaleString();
   });
   return prods;
 }

@@ -10,7 +10,7 @@ export default function ProductsModel(sequelize, Sequelize) {
       allowNul: false,
     },
     price: {
-      type: Sequelize.DataTypes.DECIMAL,
+      type: Sequelize.DataTypes.DECIMAL(10, 2),
       allowNul: false,
     },
     top: {

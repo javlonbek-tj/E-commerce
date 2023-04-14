@@ -76,7 +76,7 @@
       <label for="price" class="form-label">Narxi</label>
       <input
         id="price"
-        type="number"
+        type="text"
         class="form-control fs-3 <%= validationErrors.find(e => e.param === 'price') ? 'invalidInput' : '' %>"
         name="price"
         value="<% if (hasError) { %><%= product.price %><% } %>"
