@@ -26,6 +26,7 @@ export const postCart = async (req, res, next) => {
     prodId = parseInt(prodId);
     let newQuantity = 1;
     const userCart = await req.user.getCart();
+    const cartProducts = await userCart.getProducts();
     const productsWithoutImages = await userCart.getProducts({ where: { id: prodId } });
     const products = await Promise.all(
       productsWithoutImages.map(async product => {
@@ -46,6 +47,9 @@ export const postCart = async (req, res, next) => {
     await userCart.addProduct(product, { through: { quantity: newQuantity } });
     res.status(200).json({
       success: true,
+      data: {
+        cartProducts,
+      },
     });
   } catch (err) {
     next(new AppError(err, 500));

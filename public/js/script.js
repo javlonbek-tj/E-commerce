@@ -166,6 +166,7 @@ const carts = document.querySelectorAll('#cart');
 carts.forEach(cart => {
   cart.addEventListener('submit', async event => {
     event.preventDefault(); // prevent form submission
+    const headerCart = document.querySelector('.headerCart');
     const prodId = event.target.querySelector('#prodId').value; // get prodId value
     const url = '/cart'; // replace with your endpoint URL
     try {
@@ -176,11 +177,11 @@ carts.forEach(cart => {
           'Content-Type': 'application/json',
         },
       });
-
       if (response.ok) {
         // Handle success
+        const res = await response.json();
         console.log('Product added to cart successfully!');
-        location.assign('/cart');
+        headerCart.textContent = `${res.data.cartProducts.length}`;
       } else {
         // Handle error
         console.error('Failed to add product to cart');
