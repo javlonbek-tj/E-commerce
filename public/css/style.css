@@ -500,6 +500,7 @@ input:-webkit-autofill:active {
 .deleteCart i {
   cursor: pointer;
 }
+
 /* media queries  */
 
 @media (max-width: 991px) {

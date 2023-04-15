@@ -1,3 +1,4 @@
+import { where } from 'sequelize';
 import AppError from '../services/AppError.js';
 import formatProd from '../services/formatProd.js';
 
