@@ -28,10 +28,16 @@ cartItems.forEach(cartItem => {
   const plusBtn = cartItem.querySelector('.plus-btn');
   const minusBtn = cartItem.querySelector('.minus-btn');
 
+  let quantity;
+  if (quantityInput) {
+    quantity = parseInt(quantityInput.value);
+  }
+
   // Add event listener for plus button
   if (plusBtn) {
     plusBtn.addEventListener('click', async function () {
-      quantityInput.value = parent(quantityInput.value) + 1;
+      quantity = quantity + 1;
+      quantityInput.value = quantity;
       calculateSubtotal();
       const url = '/cart/increaseQty';
       try {
@@ -59,8 +65,9 @@ cartItems.forEach(cartItem => {
   // Add event listener for minus button
   if (minusBtn) {
     minusBtn.addEventListener('click', async function () {
-      if (parent(quantityInput.value) > 1) {
-        quantityInput.value = parent(quantityInput.value) - 1;
+      if (quantity > 1) {
+        quantity = quantity - 1;
+        quantityInput.value = quantity;
         calculateSubtotal();
         const url = '/cart/decreaseQty';
         try {
@@ -115,25 +122,22 @@ cartItems.forEach(cartItem => {
     subtotal = subtotal.toFixed(2);
     calculation.textContent = `Jami ${quantity} ta`;
     subtotalElement.textContent = subtotal + ' ' + 'UZS';
-
-    const totalProdsPrice = document.querySelector('.totalProdsPrice');
-    const total = Array.from(cartItems).reduce((accumulator, cartItem) => {
-      const subtotalElement = cartItem.querySelector('.subtotal').textContent.split(' ')[0];
-      return accumulator + +subtotalElement;
-    }, 0);
-    totalProdsPrice.textContent = total;
+    calculateProdsPrice();
   }
 });
 
 // Total products price in the cart
 const totalProdsPrice = document.querySelector('.totalProdsPrice');
-const total = Array.from(cartItems).reduce((accumulator, cartItem) => {
-  const subtotalElement = cartItem.querySelector('.subtotal').textContent.split(' ')[0];
-  return accumulator + +subtotalElement;
-}, 0);
-if (totalProdsPrice) {
-  totalProdsPrice.textContent = total;
+function calculateProdsPrice() {
+  const total = Array.from(cartItems).reduce((accumulator, cartItem) => {
+    const subtotalElement = cartItem.querySelector('.subtotal').textContent.split(' ')[0];
+    return accumulator + +subtotalElement;
+  }, 0);
+  if (totalProdsPrice) {
+    totalProdsPrice.textContent = total;
+  }
 }
+calculateProdsPrice();
 
 // Add to cart request
 
