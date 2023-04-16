@@ -1,0 +1,60 @@
+<%- include('../includes/head.ejs') %>
+<div class="container mts">
+  <div class="row">
+    <form class="col-md-8 cart fs-3 mbs" method="POST" action="/order">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="phone">Telefon *</label>
+          <input type="text" class="form-control fs-4 mb-3" id="phone" name="phone" />
+        </div>
+        <div class="col-md-6">
+          <label for="name">F.I.O *</label>
+          <input type="text" class="form-control fs-4 mb-3" id="name" name="name" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="region">Viloyat *</label>
+          <input type="text" class="form-control fs-4 mb-3" id="region" name="region" />
+        </div>
+        <div class="col-md-6">
+          <label for="province">Tuman *</label>
+          <input type="text" class="form-control fs-4 mb-3" id="province" name="province" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="region">Aholi punkti *</label>
+          <input type="text" class="form-control fs-4 mb-3" id="extraAddress" name="extraAddress" />
+        </div>
+        <div class="col-md-6">
+          <label for="province">Manzil *</label>
+          <input type="text" class="form-control fs-4 mb-3" id="address" name="address" />
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-warning fs-3">Buyurtma berish</button>
+      </div>
+    </form>
+    <div class="col-md-3 cart offset-md-1 fs-3 text-center" style="max-height: 40vh; overflow-y: auto">
+      <h4 class="text-primary">
+        Savatchadagi mahsulotlar soni: <span class="fw-bold"><%= products.length %></span>
+      </h4>
+      <h3>Umumiy miqdor:</h3>
+      <h1 class="d-inline"><%= total %></h1>
+      &nbsp<span class="h1">UZS</span>
+      <hr />
+      <% for(let product of products) {%>
+      <div class="d-flex align-items-center cartImg mb-5">
+        <img src="<%= product.images[0].imageUrl %>" alt="Product Image" class="me-5 product-image" />
+        <div class="d-flex flex-column">
+          <h4 class="ms-3 mt-3"><%= product.name %></h4>
+          <h5><%= product.cartItem.quantity%> dona</h5>
+          <h4>Narxi: <%=product.price%> UZS</h4>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('../includes/end.ejs') %>

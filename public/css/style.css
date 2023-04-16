@@ -227,7 +227,7 @@ h3 {
 /* Authenticated User */
 
 .drop,
-.drop2 {
+.footerDrop {
   position: absolute;
   width: 20rem;
   box-shadow: var(--box-shadow);
@@ -242,7 +242,7 @@ h3 {
 }
 
 .drop div,
-.drop2 div,
+.footerDrop div,
 .nav-form {
   line-height: 8px;
   margin: 6px 0;
@@ -250,14 +250,14 @@ h3 {
 }
 
 .drop a,
-.drop2 a,
+.footerDrop a,
 .nav-form {
   color: #313131;
 }
 .drop {
   top: 100%;
 }
-.drop2 {
+.footerDrop {
   bottom: 100%;
 }
 .nav-link {
@@ -282,7 +282,7 @@ h3 {
 }
 
 .drop.active,
-.drop2.active {
+.footerDrop.active {
   right: 0;
 }
 .authUser img {
@@ -544,10 +544,10 @@ input:-webkit-autofill:active {
     display: none;
   }
   .mbs {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   .mbb {
-    margin-bottom: 40px;
+    margin-bottom: 150px;
   }
   .mobile__footer {
     display: block;

@@ -39,6 +39,7 @@ cartItems.forEach(cartItem => {
       quantity = quantity + 1;
       quantityInput.value = quantity;
       calculateSubtotal();
+      calculateProdsPrice();
       const url = '/cart/increaseQty';
       try {
         const res = await fetch(url, {
@@ -69,6 +70,7 @@ cartItems.forEach(cartItem => {
         quantity = quantity - 1;
         quantityInput.value = quantity;
         calculateSubtotal();
+        calculateProdsPrice();
         const url = '/cart/decreaseQty';
         try {
           const res = await fetch(url, {
@@ -98,32 +100,27 @@ cartItems.forEach(cartItem => {
   if (quantityInput) {
     quantityInput.addEventListener('change', function () {
       calculateSubtotal();
+      calculateProdsPrice();
     });
   }
 
   const productPriceElement = cartItem.querySelector('#productPrice');
-  let price;
-  if (productPriceElement) {
-    price = productPriceElement.innerText;
-  }
   const calculation = cartItem.querySelector('#calculation');
-  if (calculation) {
-    calculation.textContent = `Jami ${quantity} ta`;
-  }
-
-  if (subtotalElement) {
-    const total = (quantity * parseFloat(price)).toFixed(2);
-    subtotalElement.textContent = `${total} UZS`;
-  }
 
   // Function to calculate total price of product which is added tocart
   function calculateSubtotal() {
-    let subtotal = quantity * parseFloat(price);
-    subtotal = subtotal.toFixed(2);
-    calculation.textContent = `Jami ${quantity} ta`;
-    subtotalElement.textContent = subtotal + ' ' + 'UZS';
-    calculateProdsPrice();
+    if (productPriceElement) {
+      price = parseFloat(productPriceElement.innerText).toFixed(2);
+    }
+    if (subtotalElement) {
+      const prodTotalPrice = quantity * price;
+      subtotalElement.textContent = `${prodTotalPrice} UZS`;
+    }
+    if (calculation) {
+      calculation.textContent = `Jami ${quantity} ta`;
+    }
   }
+  calculateSubtotal();
 });
 
 // Total products price in the cart
@@ -184,7 +181,8 @@ deleteCartForms.forEach(deleteCartForm => {
   deleteCartForm.addEventListener('submit', async event => {
     event.preventDefault();
     const cartItemId = deleteCartForm.querySelector('.cartItemId').value;
-    const subtotal = deleteCartForm.parentNode.firstElementChild.nextElementSibling.textContent.split(' ')[0];
+    let subtotal = deleteCartForm.parentNode.firstElementChild.nextElementSibling.textContent.split(' ')[0];
+    subtotal = parseFloat(subtotal).toFixed(2);
     const cartProdsNumber = document.querySelector('.cartProdsNumber');
 
     try {
@@ -198,12 +196,13 @@ deleteCartForms.forEach(deleteCartForm => {
 
       // Check if the request was successful
       if (res.ok) {
-        totalProdsPrice.textContent = +totalProdsPrice.textContent - +subtotal;
         cartProdsNumber.textContent = +cartProdsNumber.textContent - 1;
         deleteCartForm.closest('.cart-item').remove();
         headerCartNumber.textContent = isNaN(parseInt(headerCartNumber.textContent))
           ? 1
           : parseInt(headerCartNumber.textContent) - 1;
+        totalProdsPrice.textContent = parseFloat(totalProdsPrice.textContent).toFixed(2) - subtotal;
+        window.location.reload();
         console.log(`Cart item with ID ${cartItemId} deleted successfully.`);
       } else {
         console.error(`Failed to delete cart item with ID ${cartItemId}`);

@@ -10,6 +10,8 @@ import ProductInfo from '../models/ProductInfo.js';
 import ImageModel from '../models/ImageModel.js';
 import Relations from '../models/Relations.js';
 import dotenv from 'dotenv';
+import OrderModel from '../models/OrderModel.js';
+import OrderItemModel from '../models/OrderItemModel.js';
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -32,6 +34,8 @@ export default async function pg() {
     db.productBrand = await ProductBrand(sequelize, Sequelize);
     db.carts = await CartModel(sequelize, Sequelize);
     db.cartItems = await CartItemModel(sequelize, Sequelize);
+    db.orders = await OrderModel(sequelize, Sequelize);
+    db.orderItems = await OrderItemModel(sequelize, Sequelize);
     db.typeBrands = await TypeBrand(sequelize, Sequelize);
     db.images = await ImageModel(sequelize, Sequelize);
 

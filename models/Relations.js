@@ -17,6 +17,12 @@ export default async function Relations(db) {
   await db.products.belongsToMany(db.carts, { through: db.cartItems });
   await db.carts.belongsToMany(db.products, { through: db.cartItems });
 
+  await db.users.hasMany(db.orders);
+  await db.orders.belongsTo(db.users);
+
+  await db.products.belongsToMany(db.orders, { through: db.orderItems });
+  await db.orders.belongsToMany(db.products, { through: db.orderItems });
+
   await db.productBrand.belongsToMany(db.productType, {
     through: db.typeBrands,
   });
