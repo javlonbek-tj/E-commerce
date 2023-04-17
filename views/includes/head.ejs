@@ -45,9 +45,6 @@
           </div>
           <% } %>
           <% if(user) { %>
-            <div class="me-4">
-              <a href="/favourite"><i class="fa-regular fa-heart fs-2 text-warning"></i></a>
-            </div>
             <div class="d-flex me-5">
               <a href="/cart" class="btn btn-outline-dark fs-4"><i class="fa-solid fa-cart-shopping  headerCartIcon"></i>
                 Savat
@@ -55,14 +52,14 @@
           </div>
           <div class="authUser">
             <div id="user_btn">
-              <img src="<% if(user.photo) { %>  /<%= user.photo %> <% } else { %> /image/commentUser.png <% } %>" alt="Profil"/>
+              <img src="/image/commentUser.png" alt="Profil"/>
           </div>
           <div class="drop d-flex flex-column">
             <div class="nav-link">
-              <a href="/user/profile"> Profilim</a>
+              <a href="/orders">Buyurtmalarim</a>
             </div>
             <div class="nav-link">
-              <a href="/user/myFavourite"> Tanlanganlar</a>
+              <a href="/cart">Savatcha</a>
             </div>
             <form action="/logout" method="GET" class="nav-form">
               <button class="nav-link">Chiqish</button>
@@ -94,10 +91,10 @@
         </a>
         <div class="footerDrop d-flex flex-column">
           <div class="nav-link">
-            <a href="/user/profile"> Profilim</a>
+            <a href="/orders">Buyurtmalarim</a>
           </div>
           <div class="nav-link">
-            <a href="/user/myFavourite"> Tanlanganlar</a>
+            <a href="/cart">Savatcha</a>
           </div>
           <form action="/logout" method="GET" class="nav-form">
             <button class="nav-link">Chiqish</button>

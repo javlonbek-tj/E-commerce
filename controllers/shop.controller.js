@@ -1,4 +1,3 @@
-import { where } from 'sequelize';
 import AppError from '../services/AppError.js';
 
 export const getCart = async (req, res, next) => {
@@ -31,13 +30,7 @@ export const postCart = async (req, res, next) => {
     let newQuantity = 1;
     const userCart = await req.user.getCart();
     const cartProducts = await userCart.getProducts();
-    const productsWithoutImages = await userCart.getProducts({ where: { id: prodId } });
-    const products = await Promise.all(
-      productsWithoutImages.map(async product => {
-        product.images = await product.getImages();
-        return product;
-      }),
-    );
+    const products = await userCart.getProducts({ where: { id: prodId } });
     let product;
     let hasProduct;
     if (products.length > 0) {

@@ -1,6 +1,7 @@
 import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
 import { deleteImageIfError, getImageUrl, deleteImage } from '../services/file.js';
+import OrderItem from '../models/OrderItemModel.js';
 
 export const getAdminPage = async (req, res, next) => {
   try {
@@ -232,6 +233,40 @@ export const deleteProduct = async (req, res, next) => {
     });
     deleteImage(imageUrl);
     res.redirect('/');
+  } catch (err) {
+    next(new AppError(err, 500));
+  }
+};
+
+export const getAllOrders = async (req, res, next) => {
+  try {
+    const orders = await req.db.orders.findAll({ include: ['products'] });
+    const updatedOrders = await Promise.all(
+      orders.map(async order => {
+        // Fetch 'products' array for each order
+        const products = order.products;
+
+        // Fetch images for each product in 'products' array
+        let orderItem;
+        const productsWithImages = await Promise.all(
+          products.map(async product => {
+            product.images = await product.getImages();
+            orderItem = product.orderItem;
+            return product;
+          }),
+        );
+        // Update 'products' array of the current order with products containing 'images' property
+        order.products = productsWithImages;
+        order.orderItem = orderItem;
+
+        // Return updated order object
+        return order;
+      }),
+    );
+    res.render('admin/allOrders', {
+      pageTitle: 'Admin',
+      orders: updatedOrders,
+    });
   } catch (err) {
     next(new AppError(err, 500));
   }

@@ -1,7 +1,7 @@
 <%- include('../includes/head.ejs') %>
 <div class="container mts">
   <div class="row">
-    <form class="col-md-8 cart fs-3 mbs" method="POST" action="/order">
+    <form class="col-md-7 cart fs-3 mbs" method="POST" action="/order">
       <div class="row">
         <div class="col-md-6">
           <label for="phone">Telefon *</label>
@@ -36,7 +36,7 @@
         <button type="submit" class="btn btn-warning fs-3">Buyurtma berish</button>
       </div>
     </form>
-    <div class="col-md-3 cart offset-md-1 fs-3 text-center" style="max-height: 40vh; overflow-y: auto">
+    <div class="col-md-4 cart offset-md-1 fs-3 text-center">
       <h4 class="text-primary">
         Savatchadagi mahsulotlar soni: <span class="fw-bold"><%= products.length %></span>
       </h4>

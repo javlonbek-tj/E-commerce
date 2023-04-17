@@ -9,6 +9,7 @@ import {
   createType,
   getAddProduct,
   deleteProduct,
+  getAllOrders,
 } from '../controllers/admin-controller.js';
 import { isAuth } from '../controllers/auth-controller.js';
 
@@ -27,5 +28,6 @@ router.post(
   createProduct,
 );
 router.post('/deleteProd', deleteProduct);
+router.get('/orders', getAllOrders);
 
 export default router;

@@ -5,7 +5,7 @@ export default async function Relations(db) {
   await db.productType.hasMany(db.products);
   await db.products.belongsTo(db.productType);
 
-  await db.products.hasMany(db.productInfo, { onDelete: 'CASCADE' });
+  await db.products.hasMany(db.productInfo);
   await db.productInfo.belongsTo(db.products);
 
   await db.productBrand.hasMany(db.products);

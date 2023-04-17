@@ -22,10 +22,10 @@
   </div>
   <section class="home my-5 container-lg" id="home">
       <div class="home_categories d-flex justify-content-evenly justify-content-center">
-        <div class="me-5 ms-3"><a href="/products?category=estate"><i class="fa-sharp fa-solid fa-house-chimney"> <span>Uy-joy</span></i></a></div>
-        <div class="mx-3"><a href="/products?category=avto"><i class="fa-sharp fa-solid fa-car"> <span>Avto</span></i></a></div>
-        <div class="mx-3"><a href="/products?category=electronics"><i class="fa-sharp fa-solid fa-laptop"> <span>Elektronika</span></i></a></div>
-        <div class="mx-3"><a href="/products?category=jobs"><i class="fa-sharp fa-solid fa-person"> <span>Ish</span></i></a></div>
+        <div class="me-5 ms-3"><a href="/products?category=estate"><i class="fa-sharp fa-solid fa-house-chimney"> <span>Smartfonlar</span></i></a></div>
+        <div class="mx-3"><a href="/products?category=avto"><i class="fa-sharp fa-solid fa-car"> <span>Maishiy texnika</span></i></a></div>
+        <div class="mx-3"><a href="/products?category=electronics"><i class="fa-sharp fa-solid fa-laptop"> <span>Televizorlar</span></i></a></div>
+        <div class="mx-3"><a href="/products?category=jobs"><i class="fa-sharp fa-solid fa-person"> <span>Kompyuterlar</span></i></a></div>
       </div>
   </section>
 
@@ -37,7 +37,7 @@
   <h2 class="text-center">Top Mahsulotlar mavjud emas</h2>
   <% } else { %>
   <div class="top-products d-flex justify-content-between">
-    <h2>Top e'lonlar</h2>
+    <h2>Top Mahsulotlar</h2>
   </div>
   <div class="box-container">
     <% for (let product of topProds) { %>
@@ -50,10 +50,6 @@
         <h3 class="text-center"><%= product.price %>UZS</h3>
       </div>
       <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
-        <form id="myFav">
-          <input type="hidden" value="<%= product.id%>" id="prodId">
-          <button class="bg-white"><i class="fa-regular fa-heart fs-4" id="my_fav"></i></button>
-        </form>
         <form id="cartIcon">
           <input type="hidden" value="<%= product.id%>" id="prodId">
           <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
@@ -72,8 +68,8 @@
   <h2 class="text-center">Yangi Mahsulotlar mavjud emas</h2>
   <% } else { %>
   <div class="top-products d-flex justify-content-between">
-    <h2>Yangi e'lonlar</h2>
-    <a href="/products" class="h4 fst-italic">Barcha e'lonlar<i class="fa-solid fa-arrow-right ms-2"></i></a>
+    <h1></h1>
+    <a href="/products" class="h4 fst-italic">Barcha mahsulotlar<i class="fa-solid fa-arrow-right ms-2"></i></a>
   </div>
   <div class="box-container">
     <% for (let product of prods) { %>

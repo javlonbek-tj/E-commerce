@@ -7,11 +7,14 @@ export const homePage = async (req, res, next) => {
   try {
     const topProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'false' } },
+      order: [['createdAt', 'DESC']],
       include: req.db.images,
     });
+    const limit = 3;
     const allProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'true' } },
       order: [['createdAt', 'DESC']],
+      limit,
       include: req.db.images,
     });
     if (topProds.length > 0) {
@@ -39,24 +42,37 @@ export const getAllProducts = async (req, res, next) => {
     let prods;
     if (req.query.search) {
       const { search } = req.query;
-      prods = await req.db.products.findAll({ where: { name: { [Op.iLike]: `%${search}%` } } });
+      prods = await req.db.products.findAll({
+        where: { name: { [Op.iLike]: `%${search}%` } },
+        include: req.db.images,
+      });
     } else if (req.query.productBrandId || req.query.productTypeId || req.query.from || req.query.to) {
       let { productBrandId, productTypeId, from, to } = req.query;
       from = parseInt(from);
       to = parseInt(to);
       prods = await req.db.products.findAll({
         where: filtering(productBrandId, productTypeId, from, to),
+        order: [['createdAt', 'DESC']],
         offset,
         limit,
+        include: req.db.images,
       });
     } else {
-      prods = await req.db.products.findAll({ offset, limit });
+      prods = await req.db.products.findAll({
+        order: [['createdAt', 'DESC']],
+        offset,
+        limit,
+        include: req.db.images,
+      });
     }
-    res.status(200).json({
-      success: true,
-      date: {
-        prods,
-      },
+    let isOverLimit = null;
+    if (prods.length > limit) {
+      isOverLimit = true;
+    }
+    res.render('products', {
+      pageTitle: 'Barcha mahsulotlar',
+      prods,
+      isOverLimit,
     });
   } catch (err) {
     next(new AppError(err, 500));

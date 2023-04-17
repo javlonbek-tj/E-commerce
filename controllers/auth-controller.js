@@ -104,8 +104,18 @@ export const postLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await req.db.users.findOne({ where: { email } });
+    if (!user) {
+      return res.render('auth/login', {
+        pageTitle: `Kirish`,
+        errorMessage: `Email yoki parol xato`,
+        candidate: {
+          email,
+          password,
+        },
+      });
+    }
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!user || !isMatch) {
+    if (!isMatch) {
       return res.render('auth/login', {
         pageTitle: `Kirish`,
         errorMessage: `Email yoki parol xato`,

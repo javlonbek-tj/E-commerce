@@ -96,11 +96,11 @@ section {
 }
 .home_categories a {
   background: lightblue;
-  padding: 1.5rem 6rem;
+  padding: 1.5rem 3rem;
   margin-right: 4rem;
   border-radius: 12px;
   color: var(--black);
-  font-size: 1.7rem;
+  font-size: 1.3rem;
 }
 
 .home_categories a:hover {
@@ -511,7 +511,11 @@ input:-webkit-autofill:active {
     width: 30rem;
   }
   .home_categories a {
-    padding: 1.5rem 5rem;
+    padding: 1.5rem 3rem;
+  }
+  #home {
+    width: 100%;
+    margin: auto;
   }
   section {
     padding: 2rem 9%;
@@ -531,6 +535,9 @@ input:-webkit-autofill:active {
 @media (max-width: 768px) {
   #cards {
     margin: 30px auto;
+  }
+  #home {
+    display: none;
   }
   .cards .box-container {
     display: grid;
@@ -612,17 +619,6 @@ input:-webkit-autofill:active {
     width: 90px;
     height: 90px;
   }
-  #home {
-    width: 100%;
-    margin: auto;
-  }
-  .home_categories a {
-    padding: 1.5rem 2.6rem;
-    margin-right: 1.8rem;
-    border-radius: 10px;
-    color: var(--black);
-    font-size: 1.5rem;
-  }
 }
 @media (max-width: 500px) {
   html {
@@ -676,13 +672,6 @@ input:-webkit-autofill:active {
   .first__header a > span {
     display: none;
   }
-  .home_categories a {
-    padding: 1.5rem 2rem;
-    margin-right: 1.5rem;
-    border-radius: 8px;
-    color: var(--black);
-    font-size: 1.2rem;
-  }
   .alert {
     padding: 0.8rem 8rem;
     left: 50%;
@@ -700,9 +689,6 @@ input:-webkit-autofill:active {
   }
 }
 @media (max-width: 359px) {
-  #home {
-    display: none;
-  }
   #cards {
     width: 78%;
   }

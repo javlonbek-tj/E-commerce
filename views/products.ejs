@@ -1,0 +1,97 @@
+<%- include('./includes/head.ejs') %>
+<section class="filter fs-4 d-flex justify-content-center mx-auto">
+  <form class="filter_items" action="/products" method="GET">
+    <div class="filtering">
+      <select name="category" id="category">
+        <option selected disabled>Kategoriya</option>
+        <option value="avto">Transport</option>
+        <option value="electronics">Elektronika</option>
+        <option value="estate">Uy-joy</option>
+        <option value="jobs">Ish va xizmatlar</option>
+      </select>
+    </div>
+    <div class="filtering">
+      <input type="text" class="filtering-input" placeholder="min narx" name="from" />
+    </div>
+    <div class="filtering">
+      <input type="text" class="filtering-input" placeholder="max narx" name="to" />
+    </div>
+    <div class="filtering">
+      <select name="address" id="address">
+        <option selected disabled>Manzil</option>
+        <option value="Vodil">Vodil</option>
+        <option value="Yoshlarobod">Yoshlarobod</option>
+        <option value="Novkent">Novkent</option>
+        <option value="Yangiobod">Yangiobod</option>
+        <option value="Mindonobod">Mindonobod</option>
+        <option value="Avval">Avval</option>
+        <option value="Kaptarxona">Kaptarxona</option>
+        <option value="Log'on">Log'on</option>
+        <option value="Mindon">Mindon</option>
+        <option value="Chimyon">Chimyon</option>
+        <option value="Xonqiz">Xonqiz</option>
+        <option value="Oqtom">Oqtom</option>
+        <option value="Satkak">Satkak</option>
+        <option value="Damko'l">Damko'l</option>
+        <option value="Shoximardon">Shoximardon</option>
+      </select>
+    </div>
+    <div class="filtering">
+      <button type="submit">Qidirish</button>
+    </div>
+    <div class="filtering d-flex align-items-center">
+      <a href="/products" class="text-center"><i class="fa-solid fa-arrows-rotate"></i></a>
+    </div>
+  </form>
+</section>
+
+<!-- All products -->
+
+<section class="cards container-lg" id="cards">
+  <% if(prods.length <= 0) { %>
+  <h2 class="text-center">Yangi Mahsulotlar mavjud emas</h2>
+  <% } else { %>
+  <div class="box-container">
+    <% for (let product of prods) { %>
+    <div class="box">
+      <a href="/products/<%= product.id%>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
+      <div class="content p-3">
+        <div class="info pb-1 mb-3">
+          <h4 href="#"><%= product.name %></h4>
+        </div>
+        <h3 class="text-center"><%= product.price %> UZS</h3>
+      </div>
+      <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
+        <form id="myFav">
+          <input type="hidden" value="<%= product.id%>" id="prodId" />
+          <button class="bg-white"><i class="fa-regular fa-heart fs-4" id="my_fav"></i></button>
+        </form>
+        <form id="cartIcon">
+          <input type="hidden" value="<%= product.id%>" id="prodId" />
+          <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <% } %>
+</section>
+<% if(isOverLimit) { %>
+<div class="pagination d-flex justify-content-center fs-4 mt-5">
+  <a href="?page=<%=previousPage %>" class="blocks <%= (currentPage == 1) ? 'disabled' : '' %>">&laquo;</a>
+  <% if (currentPage !== 1 && previousPage !== 1) { %>
+  <a href="?page=1" class="blocks">1</a>
+  <% } %> <% if (hasPreviousPage) { %>
+  <a href="?page=<%= previousPage %>" class="blocks"><%= previousPage %></a>
+  <% } %>
+  <a href="?page=<%= currentPage %>" class="active blocks"><%= currentPage %></a>
+  <% if (hasNextPage) { %>
+  <a href="?page=<%= nextPage %>" class="blocks"><%= nextPage %></a>
+  <% } %> <% if (lastPage !== currentPage && nextPage !== lastPage) { %>
+  <a href="?page=<%= lastPage %>" class="blocks"><%= lastPage %></a>
+  <% } %>
+  <a href="?page=<%=nextPage %>" class="blocks <%= (currentPage == lastPage) ? 'disabled' : '' %>">&raquo;</a>
+</div>
+<% } %>
+<section class="mbb"></section>
+<%- include('./includes/end.ejs') %>
