@@ -22,10 +22,9 @@
   </div>
   <section class="home my-5 container-lg" id="home">
       <div class="home_categories d-flex justify-content-evenly justify-content-center">
-        <div class="me-5 ms-3"><a href="/products?category=estate"><i class="fa-sharp fa-solid fa-house-chimney"> <span>Smartfonlar</span></i></a></div>
-        <div class="mx-3"><a href="/products?category=avto"><i class="fa-sharp fa-solid fa-car"> <span>Maishiy texnika</span></i></a></div>
-        <div class="mx-3"><a href="/products?category=electronics"><i class="fa-sharp fa-solid fa-laptop"> <span>Televizorlar</span></i></a></div>
-        <div class="mx-3"><a href="/products?category=jobs"><i class="fa-sharp fa-solid fa-person"> <span>Kompyuterlar</span></i></a></div>
+        <% for(type of types) { %>
+        <div class="me-5 ms-3"><a href="/products?productTypeId=<%=type.id%>"><i class="fa-sharp fa-solid fa-house-chimney"> <span><%= type.name %></span></i></a></div>
+      <% } %>
       </div>
   </section>
 

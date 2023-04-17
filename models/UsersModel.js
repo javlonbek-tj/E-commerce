@@ -19,9 +19,5 @@ export default function UsersModel(sequelize, Sequelize) {
       allowNul: false,
       defaultValue: 'User',
     },
-    passwordChangedAt: {
-      type: Sequelize.DataTypes.DATE,
-      defaultValue: null,
-    },
   });
 }

@@ -153,14 +153,6 @@ export const isAuth = async (req, res, next) => {
       if (!currentUser) {
         return next();
       }
-
-      // 3) Check if user changed password after the token was issued
-      if (currentUser.passwordChangedAt) {
-        const changedTimestamp = parseInt(currentUser.passwordChangedAt.getTime() / 1000, 10);
-        if (decoded.iat < changedTimestamp) {
-          return next();
-        }
-      }
       // THERE IS A LOGGED IN USER
       req.user = currentUser;
       return next();

@@ -91,7 +91,7 @@ section {
 
 /* Showcase starts here */
 #home {
-  width: 80%;
+  width: 100%;
   margin: auto;
 }
 .home_categories a {
@@ -156,7 +156,7 @@ h3 {
 
 .filter {
   max-width: 900px;
-  margin-top: 5rem;
+  margin-top: 4rem;
 }
 .filter_items {
   display: grid;
@@ -166,14 +166,14 @@ h3 {
 .filtering input,
 .filtering select,
 .filtering button {
-  padding: 1.2rem 2rem;
+  padding: 0.8rem 2rem;
   width: 200px;
   border-radius: 7px;
   border: 1px solid #fff;
 }
 
 .filtering a {
-  padding: 1.2rem 2rem;
+  padding: 0.8rem 2rem;
   width: 60px;
   border-radius: 7px;
   border: 1px solid #fff;
@@ -513,10 +513,6 @@ input:-webkit-autofill:active {
   .home_categories a {
     padding: 1.5rem 3rem;
   }
-  #home {
-    width: 100%;
-    margin: auto;
-  }
   section {
     padding: 2rem 9%;
   }
@@ -586,11 +582,11 @@ input:-webkit-autofill:active {
   .filtering input,
   .filtering select,
   .filtering button {
-    padding: 1.4rem;
+    padding: 0.8rem 1.4rem;
     width: 150px;
   }
   .filtering a {
-    padding: 1.4rem;
+    padding: 0.8rem 1.4rem;
   }
   .carousel-inner .carousel-item {
     height: 320px;

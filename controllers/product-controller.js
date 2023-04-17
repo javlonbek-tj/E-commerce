@@ -2,9 +2,15 @@ import AppError from '../services/AppError.js';
 import { Op } from 'sequelize';
 import filtering from '../services/filtering.js';
 import formatProd from '../services/formatProd.js';
+import router from '../routes/admin.routes.js';
 
 export const homePage = async (req, res, next) => {
   try {
+    let types = await req.db.productType.findAll({ raw: true });
+    types.map(type => {
+      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
+      return type;
+    });
     const topProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'false' } },
       order: [['createdAt', 'DESC']],
@@ -27,6 +33,7 @@ export const homePage = async (req, res, next) => {
       pageTitle: 'E-Shopping',
       topProds,
       prods: allProds,
+      types,
     });
   } catch (err) {
     next(new AppError(err, 500));
@@ -35,11 +42,22 @@ export const homePage = async (req, res, next) => {
 
 export const getAllProducts = async (req, res, next) => {
   try {
+    let brands = await req.db.productBrand.findAll({ raw: true });
+    brands.map(brand => {
+      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
+      return brand;
+    });
+    let types = await req.db.productType.findAll({ raw: true });
+    types.map(type => {
+      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
+      return type;
+    });
     let { page, limit } = req.query;
     page = Math.abs(page) || 1;
-    limit = Math.abs(limit) || 10;
+    limit = Math.abs(limit) || 3;
     let offset = (page - 1) * limit;
     let prods;
+    let total;
     if (req.query.search) {
       const { search } = req.query;
       prods = await req.db.products.findAll({
@@ -50,29 +68,40 @@ export const getAllProducts = async (req, res, next) => {
       let { productBrandId, productTypeId, from, to } = req.query;
       from = parseInt(from);
       to = parseInt(to);
-      prods = await req.db.products.findAll({
+      const { rows, count } = await req.db.products.findAndCountAll({
         where: filtering(productBrandId, productTypeId, from, to),
         order: [['createdAt', 'DESC']],
         offset,
         limit,
         include: req.db.images,
       });
+      prods = rows;
     } else {
-      prods = await req.db.products.findAll({
+      const { rows, count } = await req.db.products.findAndCountAll({
         order: [['createdAt', 'DESC']],
         offset,
         limit,
         include: req.db.images,
       });
+      prods = rows;
+      total = count;
     }
     let isOverLimit = null;
-    if (prods.length > limit) {
+    if (total > limit) {
       isOverLimit = true;
     }
     res.render('products', {
       pageTitle: 'Barcha mahsulotlar',
       prods,
       isOverLimit,
+      types,
+      brands,
+      currentPage: page,
+      hasNextPage: limit * page < total,
+      hasPreviousPage: page > 1,
+      nextPage: page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(total / limit),
     });
   } catch (err) {
     next(new AppError(err, 500));
