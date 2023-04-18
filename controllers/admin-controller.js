@@ -62,6 +62,17 @@ export const createType = async (req, res, next) => {
   }
 };
 
+export const deleteType = async (req, res, next) => {
+  try {
+    let { typeId } = req.body;
+    typeId = parseInt(typeId);
+    await req.db.productType.destroy({ where: { id: typeId } });
+    res.redirect('/admin/prodType');
+  } catch (err) {
+    next(new AppError(err, 500));
+  }
+};
+
 export const getProdBrandPage = async (req, res, next) => {
   try {
     let brands = await req.db.productBrand.findAll({ raw: true });
@@ -105,6 +116,17 @@ export const createBrand = async (req, res, next) => {
       });
     }
     await req.db.productBrand.create({ name });
+    res.redirect('/admin/prodBrand');
+  } catch (err) {
+    next(new AppError(err, 500));
+  }
+};
+
+export const deleteBrand = async (req, res, next) => {
+  try {
+    let { brandId } = req.body;
+    brandId = parseInt(brandId);
+    await req.db.productBrand.destroy({ where: { id: brandId } });
     res.redirect('/admin/prodBrand');
   } catch (err) {
     next(new AppError(err, 500));

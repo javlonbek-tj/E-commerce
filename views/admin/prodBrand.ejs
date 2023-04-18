@@ -12,7 +12,11 @@
       <h3>Barcha mahsulot brandlari:</h3>
       <ul>
         <% for(brand of brands) { %>
-        <li class="fs-3"><%= brand.name %></li>
+        <form class="d-flex" action="/admin/deleteBrand" method="POST">
+          <input type="hidden" name="brandId" value="<%= brand.id %>" />
+          <li class="fs-3 me-4"><%= brand.name %></li>
+          <button type="submit" class="bg-none"><i class="fa-solid fa-trash text-danger fs-5"></i></button>
+        </form>
         <% } %>
       </ul>
     </div>

@@ -10,6 +10,8 @@ import {
   getAddProduct,
   deleteProduct,
   getAllOrders,
+  deleteBrand,
+  deleteType,
 } from '../controllers/admin-controller.js';
 import { isAuth } from '../controllers/auth-controller.js';
 
@@ -29,5 +31,7 @@ router.post(
 );
 router.post('/deleteProd', deleteProduct);
 router.get('/orders', getAllOrders);
+router.post('/deleteBrand', deleteBrand);
+router.post('/deleteType', deleteType);
 
 export default router;
