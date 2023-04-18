@@ -40,7 +40,7 @@ export default async function pg() {
     db.images = await ImageModel(sequelize, Sequelize);
 
     await Relations(db);
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     return db;
   } catch (err) {
     console.log(err);
