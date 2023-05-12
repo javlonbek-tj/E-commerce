@@ -15,7 +15,9 @@
         <form class="d-flex" action="/admin/deleteType" method="POST">
           <input type="hidden" name="typeId" value="<%= type.id %>" />
           <li class="fs-3 me-4"><%= type.name %></li>
+          <% if(types.indexOf(type) > 14) { %>
           <button type="submit" class="bg-none"><i class="fa-solid fa-trash text-danger fs-5"></i></button>
+          <% } %>
         </form>
         <% } %>
       </ul>

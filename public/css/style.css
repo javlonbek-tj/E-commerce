@@ -45,6 +45,9 @@ section {
 .mts {
   margin-top: 6rem;
 }
+.buttonColor {
+  background-color: #d3eaf2;
+}
 .first__header {
   background-color: rgb(58, 58, 95);
   width: 100%;

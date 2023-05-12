@@ -1,7 +1,6 @@
 import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
 import { deleteImageIfError, getImageUrl, deleteImage } from '../services/file.js';
-import OrderItem from '../models/OrderItemModel.js';
 
 export const getAdminPage = async (req, res, next) => {
   try {
@@ -185,7 +184,7 @@ export const createProduct = async (req, res, next) => {
     if (imageUrl.length <= 0) {
       imageError = true;
     }
-    if (!errors.isEmpty() || imageError || !brandId || !typeId) {
+    if (!errors.isEmpty() || imageError || !typeId) {
       if (imageUrl.length > 0) {
         deleteImageIfError(imageUrl);
       }
@@ -217,7 +216,7 @@ export const createProduct = async (req, res, next) => {
     const product = await req.db.products.create({
       name,
       price,
-      productBrandId: brandId,
+      productBrandId: brandId ? brandId : null,
       productTypeId: typeId,
       img: images.image1[0].path,
       top,

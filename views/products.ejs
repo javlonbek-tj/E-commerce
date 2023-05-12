@@ -2,7 +2,7 @@
 <section class="filter fs-4 d-flex justify-content-center mx-auto">
   <form class="filter_items" action="/products" method="GET">
     <div class="filtering">
-      <select name="productBrandId" id="productBrandId">
+      <select name="productTypeId" id="productTypeId">
         <option selected disabled>Mahsulot turi</option>
         <% for(type of types) { %>
         <option value="<%= type.id %>"><%= type.name %></option>
@@ -16,7 +16,7 @@
       <input type="text" class="filtering-input" placeholder="max narx" name="to" />
     </div>
     <div class="filtering">
-      <select name="productTypeId" id="productTypeId">
+      <select name="productBrandId" id="productBrandId">
         <option selected disabled>Mahsulot brandi</option>
         <% for(brand of brands) { %>
           <option value="<%= brand.id %>"><%= brand.name %></option>
