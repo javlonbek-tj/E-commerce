@@ -5,31 +5,67 @@
       <div class="row">
         <div class="col-md-6">
           <label for="phone">Telefon *</label>
-          <input type="text" class="form-control fs-4 mb-3" id="phone" name="phone" />
+          <input
+            type="text"
+            class="form-control fs-4 mb-3 <%= validationErrors.find(e => e.param === 'phone') ? 'invalidInput' : '' %>"
+            id="phone"
+            name="phone"
+            value="<%= (error) ? order.phone : '+998' %>"
+          />
         </div>
         <div class="col-md-6">
-          <label for="name">F.I.O *</label>
-          <input type="text" class="form-control fs-4 mb-3" id="name" name="name" />
+          <label for="name">F.I.SH *</label>
+          <input
+            type="text"
+            class="form-control fs-4 mb-3 <%= validationErrors.find(e => e.param === 'name') ? 'invalidInput' : '' %>"
+            id="name"
+            name="name"
+            value="<%= (error) ? order.name : '' %>"
+          />
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <label for="region">Viloyat *</label>
-          <input type="text" class="form-control fs-4 mb-3" id="region" name="region" />
+          <label for="province">Viloyat *</label>
+          <input
+            type="text"
+            class="form-control fs-4 mb-3 <%= validationErrors.find(e => e.param === 'province') ? 'invalidInput' : '' %>"
+            id="province"
+            name="province"
+            value="<%= (error) ? order.province : '' %>"
+          />
         </div>
         <div class="col-md-6">
-          <label for="province">Tuman *</label>
-          <input type="text" class="form-control fs-4 mb-3" id="province" name="province" />
+          <label for="region">Tuman *</label>
+          <input
+            type="text"
+            class="form-control fs-4 mb-3 <%= validationErrors.find(e => e.param === 'region') ? 'invalidInput' : '' %>"
+            id="region"
+            name="region"
+            value="<%= (error) ? order.region : '' %>"
+          />
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <label for="region">Aholi punkti *</label>
-          <input type="text" class="form-control fs-4 mb-3" id="extraAddress" name="extraAddress" />
+          <label for="extraAddress">Aholi punkti *</label>
+          <input
+            type="text"
+            class="form-control fs-4 mb-3 <%= validationErrors.find(e => e.param === 'extraAddress') ? 'invalidInput' : '' %>"
+            id="extraAddress"
+            name="extraAddress"
+            value="<%= (error) ? order.extraAddress : '' %>"
+          />
         </div>
         <div class="col-md-6">
-          <label for="province">Manzil *</label>
-          <input type="text" class="form-control fs-4 mb-3" id="address" name="address" />
+          <label for="address">Manzil *</label>
+          <input
+            type="text"
+            class="form-control fs-4 mb-3 <%= validationErrors.find(e => e.param === 'address') ? 'invalidInput' : '' %>"
+            id="address"
+            name="address"
+            value="<%= (error) ? order.address : '' %>"
+          />
         </div>
       </div>
       <div class="text-center mt-4">

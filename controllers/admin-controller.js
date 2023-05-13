@@ -246,6 +246,7 @@ export const deleteProduct = async (req, res, next) => {
   try {
     const { prodId } = req.body;
     const product = await req.db.products.findOne({ where: { id: prodId }, include: req.db.images });
+    await product.removeOrders();
     await req.db.products.destroy({
       where: { id: prodId },
     });
@@ -262,10 +263,11 @@ export const deleteProduct = async (req, res, next) => {
 export const getAllOrders = async (req, res, next) => {
   try {
     const orders = await req.db.orders.findAll({ include: ['products'] });
+    let products;
     const updatedOrders = await Promise.all(
       orders.map(async order => {
         // Fetch 'products' array for each order
-        const products = order.products;
+        products = order.products;
 
         // Fetch images for each product in 'products' array
         let orderItem;
@@ -287,6 +289,7 @@ export const getAllOrders = async (req, res, next) => {
     res.render('admin/allOrders', {
       pageTitle: 'Admin',
       orders: updatedOrders,
+      products,
     });
   } catch (err) {
     next(new AppError(err, 500));

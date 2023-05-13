@@ -2,7 +2,6 @@ import AppError from '../services/AppError.js';
 import { Op } from 'sequelize';
 import filtering from '../services/filtering.js';
 import formatProd from '../services/formatProd.js';
-import router from '../routes/admin.routes.js';
 
 export const homePage = async (req, res, next) => {
   try {

@@ -228,8 +228,9 @@ h3 {
 }
 
 /* Authenticated User */
-
-.drop,
+.user_nav {
+  position: relative;
+}
 .footerDrop {
   position: absolute;
   width: 20rem;
@@ -239,6 +240,20 @@ h3 {
   background: #fff;
   right: 100%;
   text-align: center;
+}
+.drop {
+  position: absolute;
+  width: 20rem;
+  box-shadow: var(--box-shadow);
+  padding: 1.5rem;
+  border-radius: 1.2rem;
+  background: #fff;
+  right: -20rem;
+  top: calc(100% + 2.2rem);
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateX(100%);
 }
 #user_btn img {
   cursor: pointer;
@@ -256,9 +271,6 @@ h3 {
 .footerDrop a,
 .nav-form {
   color: #313131;
-}
-.drop {
-  top: 100%;
 }
 .footerDrop {
   bottom: 100%;
@@ -284,9 +296,14 @@ h3 {
   color: blue;
 }
 
-.drop.active,
 .footerDrop.active {
   right: 0;
+}
+.drop.active {
+  right: calc(100% - 28rem);
+  top: calc(100% + 2.2rem);
+  opacity: 1;
+  transform: translateX(0);
 }
 .authUser img {
   height: 3.5rem;

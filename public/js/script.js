@@ -9,6 +9,11 @@ if (drop) {
   drop.addEventListener('click', () => {
     drop.classList.remove('active');
   });
+  document.body.addEventListener('click', event => {
+    if (!event.target.closest('.user_nav')) {
+      drop.classList.remove('active');
+    }
+  });
 }
 if (footerDrop) {
   document.querySelector('#user_footer_btn').addEventListener('click', () => {
@@ -17,6 +22,11 @@ if (footerDrop) {
 
   footerDrop.addEventListener('click', () => {
     footerDrop.classList.remove('active');
+  });
+  document.body.addEventListener('click', event => {
+    if (!event.target.closest('.mobile__footer')) {
+      footerDrop.classList.remove('active');
+    }
   });
 }
 

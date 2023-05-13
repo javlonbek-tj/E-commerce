@@ -1,4 +1,5 @@
 import AppError from '../services/AppError.js';
+import { validationResult } from 'express-validator';
 
 export const getCart = async (req, res, next) => {
   try {
@@ -118,6 +119,16 @@ export const getCheckout = async (req, res, next) => {
       pageTitle: 'Checkout',
       products,
       total,
+      validationErrors: [],
+      order: {
+        phone: '',
+        name: '',
+        province: '',
+        region: '',
+        extraAddress: '',
+        address: '',
+      },
+      error: false,
     });
   } catch (err) {
     next(new AppError(err, 500));
@@ -127,6 +138,35 @@ export const getCheckout = async (req, res, next) => {
 export const postOrder = async (req, res, next) => {
   try {
     const { phone, name, province, region, extraAddress, address } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const cart = await req.user.getCart();
+      const productsWithoutImages = await cart.getProducts();
+      const products = await Promise.all(
+        productsWithoutImages.map(async product => {
+          product.images = await product.getImages();
+          return product;
+        }),
+      );
+      const total = products.reduce((accumulator, product) => {
+        return accumulator + +product.price * product.cartItem.quantity;
+      }, 0);
+      return res.render('shop/checkout', {
+        pageTitle: 'Checkout',
+        products,
+        total,
+        validationErrors: errors.array(),
+        order: {
+          phone,
+          name,
+          province,
+          region,
+          extraAddress,
+          address,
+        },
+        error: true,
+      });
+    }
     const cart = await req.user.getCart();
     const products = await cart.getProducts();
     const userOrder = await req.user.createOrder();
@@ -154,10 +194,11 @@ export const postOrder = async (req, res, next) => {
 export const getOrders = async (req, res, next) => {
   try {
     const orders = await req.user.getOrders({ include: ['products'] });
+    let products;
     const updatedOrders = await Promise.all(
       orders.map(async order => {
         // Fetch 'products' array for each order
-        const products = order.products;
+        products = order.products;
 
         // Fetch images for each product in 'products' array
         const productsWithImages = await Promise.all(
@@ -177,6 +218,7 @@ export const getOrders = async (req, res, next) => {
     res.render('shop/orders', {
       pageTitle: 'Buyurtmalar',
       updatedOrders,
+      products,
     });
   } catch (err) {
     next(new AppError(err, 500));
