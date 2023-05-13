@@ -78,16 +78,6 @@ section {
   width: 50rem;
 }
 
-#nav_carousel .carousel-inner {
-  height: 35rem;
-}
-#nav_carousel .carousel-item {
-  height: 100%;
-}
-#nav_carousel .carousel-inner img {
-  background: cover;
-}
-
 .mobile__footer {
   display: none;
 }
@@ -530,15 +520,8 @@ input:-webkit-autofill:active {
   .header_navbar .input__icons {
     width: 30rem;
   }
-  .home_categories a {
-    padding: 1.5rem 3rem;
-  }
   section {
     padding: 2rem 9%;
-  }
-  #carouselExampleIndicators {
-    width: 60%;
-    margin: auto;
   }
   .detail_card {
     margin-top: 2.5rem;
@@ -608,18 +591,6 @@ input:-webkit-autofill:active {
   .filtering a {
     padding: 0.8rem 1.4rem;
   }
-  .carousel-inner .carousel-item {
-    height: 320px;
-  }
-  .choosing_category_item {
-    width: 200px;
-  }
-  .choosing_category_items div {
-    margin: 0 auto 2rem auto;
-  }
-  #carouselExampleIndicators {
-    width: 90%;
-  }
   .cards .box-container .box .content .icons a i {
     display: none;
   }
@@ -638,32 +609,18 @@ input:-webkit-autofill:active {
 }
 @media (max-width: 500px) {
   html {
-    font-size: 50%;
+    font-size: 45%;
   }
   .filtering input,
   .filtering select,
   .filtering button {
     width: 110px;
   }
-  #carouselExampleIndicators {
-    height: 200px;
-  }
   .cards .box-container .box img {
     height: 18rem;
   }
   .box_container .box {
     width: 24rem;
-  }
-  .carousel-inner .carousel-item img {
-    height: 200px;
-    width: 400px;
-  }
-  .choosing_category_item {
-    width: 150px;
-  }
-  .choosing_category_items i {
-    font-size: 3rem;
-    padding: 1.5rem;
   }
   .signup {
     width: 280px;
@@ -703,8 +660,14 @@ input:-webkit-autofill:active {
   .prodNumber {
     width: 120px;
   }
+  .header_navbar {
+    width: 22rem;
+  }
 }
 @media (max-width: 359px) {
+  html {
+    font-size: 40%;
+  }
   #cards {
     width: 78%;
   }

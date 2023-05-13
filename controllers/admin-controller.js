@@ -246,10 +246,23 @@ export const deleteProduct = async (req, res, next) => {
   try {
     const { prodId } = req.body;
     const product = await req.db.products.findOne({ where: { id: prodId }, include: req.db.images });
-    await product.removeOrders();
     await req.db.products.destroy({
       where: { id: prodId },
     });
+    const orders = await req.db.orders.findAll({ include: ['products'] });
+    for (const order of orders) {
+      const orderProducts = order.products;
+      const index = orderProducts.findIndex(p => p.id === prodId);
+      if (index !== -1) {
+        // Remove the product from the order's products array
+        orderProducts.splice(index, 1);
+
+        if (orderProducts.length === 0) {
+          // If the order's products array is empty, delete the entire order
+          await order.destroy({ where: { id: order.id } });
+        }
+      }
+    }
     const imageUrl = product.images.map(img => {
       return img.imageUrl;
     });
@@ -263,11 +276,15 @@ export const deleteProduct = async (req, res, next) => {
 export const getAllOrders = async (req, res, next) => {
   try {
     const orders = await req.db.orders.findAll({ include: ['products'] });
-    let products;
     const updatedOrders = await Promise.all(
       orders.map(async order => {
         // Fetch 'products' array for each order
-        products = order.products;
+        const products = order.products;
+
+        if (products.length === 0) {
+          // If the order's products array is empty, delete the entire order
+          await order.destroy({ where: { id: order.id } });
+        }
 
         // Fetch images for each product in 'products' array
         let orderItem;
@@ -289,7 +306,6 @@ export const getAllOrders = async (req, res, next) => {
     res.render('admin/allOrders', {
       pageTitle: 'Admin',
       orders: updatedOrders,
-      products,
     });
   } catch (err) {
     next(new AppError(err, 500));
