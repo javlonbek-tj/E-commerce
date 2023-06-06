@@ -194,12 +194,15 @@ export const postOrder = async (req, res, next) => {
 export const getOrders = async (req, res, next) => {
   try {
     const orders = await req.user.getOrders({ include: ['products'] });
-    let products;
     const updatedOrders = await Promise.all(
       orders.map(async order => {
         // Fetch 'products' array for each order
-        products = order.products;
+        const products = order.products;
 
+        if (products.length === 0) {
+          // If the order's products array is empty, delete the entire order
+          await order.destroy({ where: { id: order.id } });
+        }
         // Fetch images for each product in 'products' array
         const productsWithImages = await Promise.all(
           products.map(async product => {
@@ -218,7 +221,6 @@ export const getOrders = async (req, res, next) => {
     res.render('shop/orders', {
       pageTitle: 'Buyurtmalar',
       updatedOrders,
-      products,
     });
   } catch (err) {
     next(new AppError(err, 500));
