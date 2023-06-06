@@ -269,7 +269,7 @@
   <div class="top-products d-flex justify-content-between">
     <h2>Top Mahsulotlar</h2>
   </div>
-  <div class="box-container">
+  <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of topProds) { %>
     <div class="box">
       <a href="/products/<%= product.id %>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
@@ -303,7 +303,7 @@
       >Barcha mahsulotlar<i class="fa-solid fa-arrow-right ms-2"></i
     ></a>
   </div>
-  <div class="box-container">
+  <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of prods) { %>
     <div class="box">
       <a href="/products/<%= product.id%>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>

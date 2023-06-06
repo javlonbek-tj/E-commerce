@@ -39,7 +39,7 @@
   <% if(prods.length <= 0) { %>
   <h2 class="text-center">Hech narsa topilmadi</h2>
   <% } else { %>
-  <div class="box-container">
+  <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of prods) { %>
     <div class="box">
       <a href="/products/<%= product.id%>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
