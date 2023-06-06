@@ -284,6 +284,8 @@
           <input type="hidden" value="<%= product.id%>" id="prodId" />
           <% if(user) { %>
           <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
+          <% } else { %>
+          <a href="/login" class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></a>
           <% } %>
         </form>
       </div>
@@ -320,6 +322,8 @@
           <input type="hidden" value="<%= product.id%>" id="prodId" />
           <% if(user) { %>
           <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
+          <% } else { %>
+          <a href="/login" class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></a>
           <% } %>
         </form>
       </div>

@@ -92,7 +92,9 @@
                 <form id="cartIcon">
                   <input type="hidden" value="<%= product.id%>" id="prodId" />
                   <% if(user) { %>
-                  <button type="submit">Savatga qo'shish</button>
+                  <button>Savatga qo'shish</button>
+                  <% } else { %>
+                  <a href="/login" class="fs-4 btn btn-primary">Savatga qo'shish</a>
                   <% } %>
                 </form>
               </div>
