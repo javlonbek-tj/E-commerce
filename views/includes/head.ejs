@@ -52,7 +52,11 @@
           </div>
           <div class="authUser">
             <div id="user_btn">
-              <img src="/image/commentUser.png" alt="Profil"/>
+              <% if(user?.role === 'Admin') { %>
+              <img src="/image/admin_image.png"%> alt="Profil"/>
+              <% } else if(user?.role === 'User') { %>
+                <img src="/image/commentUser.png"%> alt="Profil"/>
+                <% } %>
           </div>
           <div class="drop d-flex flex-column">
             <div class="nav-link">
