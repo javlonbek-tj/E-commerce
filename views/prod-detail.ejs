@@ -77,7 +77,7 @@
               <p class="h1"><%= product.price %></p>
             </div>
             <ul class="list-unstyled pb-3 fs-4 details">
-              <% if(product.productInfos.lenght > 0) {%> <% for(let info of product.productInfos) {%>
+              <% if(product.productInfos.length > 0) {%> <% for(let info of product.productInfos) {%>
               <li><span> <%= info.title%></span> &nbsp <%= info.description %></li>
               <% }%> <% }%>
             </ul>
