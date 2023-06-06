@@ -661,7 +661,7 @@ input:-webkit-autofill:active {
     width: 120px;
   }
   .header_navbar {
-    width: 22rem;
+    width: 25rem;
   }
 }
 @media (max-width: 359px) {
