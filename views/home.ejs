@@ -282,7 +282,9 @@
       <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
         <form id="cartIcon">
           <input type="hidden" value="<%= product.id%>" id="prodId" />
+          <% if(user) { %>
           <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
+          <% } %>
         </form>
       </div>
     </div>
@@ -316,7 +318,9 @@
       <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
         <form id="cartIcon">
           <input type="hidden" value="<%= product.id%>" id="prodId" />
+          <% if(user) { %>
           <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
+          <% } %>
         </form>
       </div>
     </div>

@@ -74,7 +74,7 @@
               <h2 class="main_info"><%= product.name %></h2>
             </div>
             <div class="d-flex justify-content-between mb-3">
-              <p class="h1"><%= product.price %></p>
+              <p class="h1"><%= product.price %> UZS</p>
             </div>
             <ul class="list-unstyled pb-3 fs-4 details">
               <% if(product.productInfos.length > 0) {%> <% for(let info of product.productInfos) {%>
@@ -91,7 +91,9 @@
               <div class="pb-3 d-flex justify-content-evenly details_buttons">
                 <form id="cartIcon">
                   <input type="hidden" value="<%= product.id%>" id="prodId" />
+                  <% if(user) { %>
                   <button type="submit">Savatga qo'shish</button>
+                  <% } %>
                 </form>
               </div>
             </div>
