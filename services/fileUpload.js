@@ -1,8 +1,8 @@
 import multer from 'multer';
-const { ensureDir } = require('fs-extra');
+import { ensureDir } from 'fs-extra';
 
 const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: async (req, file, cb) => {
     const destinationDir = 'images';
     await ensureDir(destinationDir);
     cb(null, 'images');
