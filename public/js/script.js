@@ -10,11 +10,12 @@ if (drop) {
     drop.classList.remove('active');
   });
   document.body.addEventListener('click', event => {
-    if (!event.target.closest('.user_nav')) {
+    if (!event.target.closest('#user_nav')) {
       drop.classList.remove('active');
     }
   });
 }
+
 if (footerDrop) {
   document.querySelector('#user_footer_btn').addEventListener('click', () => {
     footerDrop.classList.toggle('active');
