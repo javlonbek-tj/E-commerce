@@ -2,20 +2,16 @@ import AppError from '../services/AppError.js';
 import { Op } from 'sequelize';
 import filtering from '../services/filtering.js';
 import formatProd from '../services/formatProd.js';
+import capitalizeNames from '../services/toUpperCase.js';
 
 export const homePage = async (req, res, next) => {
   try {
-    let types = await req.db.productType.findAll({ raw: true });
-    types.map(type => {
-      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
-      return type;
-    });
     const topProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'false' } },
       order: [['createdAt', 'DESC']],
       include: req.db.images,
     });
-    const limit = 3;
+    const limit = 10;
     const allProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'true' } },
       order: [['createdAt', 'DESC']],
@@ -32,7 +28,6 @@ export const homePage = async (req, res, next) => {
       pageTitle: 'E-Shopping',
       topProds,
       prods: allProds,
-      types,
     });
   } catch (err) {
     next(new AppError(err, 500));
@@ -42,18 +37,12 @@ export const homePage = async (req, res, next) => {
 export const getAllProducts = async (req, res, next) => {
   try {
     let brands = await req.db.productBrand.findAll({ raw: true });
-    brands.map(brand => {
-      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
-      return brand;
-    });
+    brands = capitalizeNames(brands);
     let types = await req.db.productType.findAll({ raw: true });
-    types.map(type => {
-      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
-      return type;
-    });
+    types = capitalizeNames(types);
     let { page, limit } = req.query;
     page = Math.abs(page) || 1;
-    limit = Math.abs(limit) || 3;
+    limit = Math.abs(limit) || 20;
     let offset = (page - 1) * limit;
     let prods;
     let total;
@@ -74,6 +63,7 @@ export const getAllProducts = async (req, res, next) => {
         limit,
         include: req.db.images,
       });
+      total = count;
       prods = rows;
     } else {
       const { rows, count } = await req.db.products.findAndCountAll({
@@ -101,6 +91,7 @@ export const getAllProducts = async (req, res, next) => {
       nextPage: page + 1,
       previousPage: page - 1,
       lastPage: Math.ceil(total / limit),
+      query: req.query,
     });
   } catch (err) {
     next(new AppError(err, 500));

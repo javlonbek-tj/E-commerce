@@ -64,17 +64,17 @@
 <div class="pagination d-flex justify-content-center fs-4 mt-5">
   <a href="?page=<%=previousPage %>" class="blocks <%= (currentPage == 1) ? 'disabled' : '' %>">&laquo;</a>
   <% if (currentPage !== 1 && previousPage !== 1) { %>
-  <a href="?page=1" class="blocks">1</a>
+  <a href="?page=1&productTypeId=<%=query.productTypeId%>&productBrandId=<%=query.productBrandId%>&from=<%=query.from%>&to=<%=query.to%>" class="blocks">1</a>
   <% } %> <% if (hasPreviousPage) { %>
-  <a href="?page=<%= previousPage %>" class="blocks"><%= previousPage %></a>
+  <a href="?page=<%= previousPage %>&productTypeId=<%=query.productTypeId%>&productBrandId=<%=query.productBrandId%>&from=<%=query.from%>&to=<%=query.to%>" class="blocks"><%= previousPage %></a>
   <% } %>
-  <a href="?page=<%= currentPage %>" class="active blocks"><%= currentPage %></a>
+  <a href="?page=<%= currentPage %>&productTypeId=<%=query.productTypeId%>&productBrandId=<%=query.productBrandId%>&from=<%=query.from%>&to=<%=query.to%>" class="active blocks"><%= currentPage %></a>
   <% if (hasNextPage) { %>
-  <a href="?page=<%= nextPage %>" class="blocks"><%= nextPage %></a>
+  <a href="?page=<%= nextPage %>&productTypeId=<%=query.productTypeId%>&productBrandId=<%=query.productBrandId%>&from=<%=query.from%>&to=<%=query.to%>" class="blocks"><%= nextPage %></a>
   <% } %> <% if (lastPage !== currentPage && nextPage !== lastPage) { %>
-  <a href="?page=<%= lastPage %>" class="blocks"><%= lastPage %></a>
+  <a href="?page=<%= lastPage %>&productTypeId=<%=query.productTypeId%>&productBrandId=<%=query.productBrandId%>&from=<%=query.from%>&to=<%=query.to%>" class="blocks"><%= lastPage %></a>
   <% } %>
-  <a href="?page=<%=nextPage %>" class="blocks <%= (currentPage == lastPage) ? 'disabled' : '' %>">&raquo;</a>
+  <a href="?page=<%=nextPage %>&productTypeId=<%=query.productTypeId%>&productBrandId=<%=query.productBrandId%>&from=<%=query.from%>&to=<%=query.to%>" class="blocks <%= (currentPage == lastPage) ? 'disabled' : '' %>">&raquo;</a>
 </div>
 <% } %>
 <section class="mbb"></section>

@@ -271,7 +271,7 @@
   </div>
   <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of topProds) { %>
-    <div class="box">
+    <div class="box mb-5">
       <a href="/products/<%= product.id %>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
       <div class="content p-3">
         <div class="info pb-1 mb-3">
@@ -309,7 +309,7 @@
   </div>
   <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of prods) { %>
-    <div class="box">
+    <div class="box mb-5">
       <a href="/products/<%= product.id%>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
       <div class="content p-3">
         <div class="info pb-1 mb-3">
