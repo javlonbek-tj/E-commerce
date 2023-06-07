@@ -11,7 +11,7 @@ export const homePage = async (req, res, next) => {
       order: [['createdAt', 'DESC']],
       include: req.db.images,
     });
-    const limit = 10;
+    const limit = 15;
     const allProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'true' } },
       order: [['createdAt', 'DESC']],
@@ -62,8 +62,9 @@ export const getAllProducts = async (req, res, next) => {
         offset,
         limit,
         include: req.db.images,
+        distinct: true,
       });
-      total = count;
+      total = parseInt(count);
       prods = rows;
     } else {
       const { rows, count } = await req.db.products.findAndCountAll({
@@ -71,9 +72,10 @@ export const getAllProducts = async (req, res, next) => {
         offset,
         limit,
         include: req.db.images,
+        distinct: true,
       });
       prods = rows;
-      total = count;
+      total = parseInt(count);
     }
     let isOverLimit = null;
     if (total > limit) {

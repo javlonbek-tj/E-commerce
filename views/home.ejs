@@ -269,7 +269,7 @@
   <div class="top-products d-flex justify-content-between">
     <h2>Top Mahsulotlar</h2>
   </div>
-  <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
+  <div class="<%= (topProds.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of topProds) { %>
     <div class="box mb-5">
       <a href="/products/<%= product.id %>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
