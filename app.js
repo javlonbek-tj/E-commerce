@@ -1,7 +1,6 @@
 import express from 'express';
 import pg from './services/pg.js';
 import dotenv from 'dotenv';
-import AppError from './services/AppError.js';
 import { globalErrorHandler, get404 } from './controllers/error.controller.js';
 import path from 'path';
 import cookieParser from 'cookie-parser';
