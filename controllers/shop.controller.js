@@ -11,13 +11,13 @@ export const getCart = async (req, res, next) => {
         return product;
       }),
     );
-    const total = products.reduce((accumulator, product) => {
+    const totalProdPrice = products.reduce((accumulator, product) => {
       return accumulator + +product.price;
     }, 0);
     res.render('shop/cart', {
       pageTitle: 'Savatdagi mahsulotlar',
       products,
-      total,
+      totalProdPrice,
     });
   } catch (err) {
     next(new AppError(err, 500));
@@ -26,12 +26,11 @@ export const getCart = async (req, res, next) => {
 
 export const postCart = async (req, res, next) => {
   try {
-    let { prodId } = req.body;
-    prodId = parseInt(prodId);
+    const { prodId } = req.body;
     let newQuantity = 1;
     const userCart = await req.user.getCart();
     const cartProducts = await userCart.getProducts();
-    const products = await userCart.getProducts({ where: { id: prodId } });
+    const products = await userCart.getProducts({ where: { id: parseInt(prodId) } });
     let product;
     let hasProduct;
     if (products.length > 0) {
@@ -42,7 +41,7 @@ export const postCart = async (req, res, next) => {
       const oldQuantity = product.cartItem.quantity;
       newQuantity = oldQuantity + 1;
     } else {
-      product = await req.db.products.findOne({ where: { id: prodId }, include: req.db.images });
+      product = await req.db.products.findOne({ where: { id: parseInt(prodId) }, include: req.db.images });
     }
     await userCart.addProduct(product, { through: { quantity: newQuantity } });
     res.status(200).json({
@@ -59,10 +58,9 @@ export const postCart = async (req, res, next) => {
 
 export const increaseQuantityByOne = async (req, res, next) => {
   try {
-    let { quantity, prodId } = req.body;
-    prodId = parseInt(prodId);
+    const { quantity, prodId } = req.body;
     const userCart = await req.user.getCart();
-    const products = await userCart.getProducts({ where: { id: prodId } });
+    const products = await userCart.getProducts({ where: { id: parseInt(prodId) } });
     const cartItemId = products[0].cartItem.id;
     await req.db.cartItems.update({ quantity: quantity }, { where: { id: cartItemId } });
     res.status(200).json({
@@ -75,10 +73,9 @@ export const increaseQuantityByOne = async (req, res, next) => {
 
 export const decreaseQuantityByOne = async (req, res, next) => {
   try {
-    let { quantity, prodId } = req.body;
-    prodId = parseInt(prodId);
+    const { quantity, prodId } = req.body;
     const userCart = await req.user.getCart();
-    const products = await userCart.getProducts({ where: { id: prodId } });
+    const products = await userCart.getProducts({ where: { id: parseInt(prodId) } });
     const cartItemId = products[0].cartItem.id;
     await req.db.cartItems.update({ quantity: quantity }, { where: { id: cartItemId } });
     res.status(200).json({
@@ -91,9 +88,8 @@ export const decreaseQuantityByOne = async (req, res, next) => {
 
 export const deleteCart = async (req, res, next) => {
   try {
-    let { cartItemId } = req.body;
-    cartItemId = parseInt(cartItemId);
-    await req.db.cartItems.destroy({ where: { id: cartItemId } });
+    const { cartItemId } = req.body;
+    await req.db.cartItems.destroy({ where: { id: parseInt(cartItemId) } });
     res.status(204).json({
       success: true,
     });
@@ -211,10 +207,7 @@ export const getOrders = async (req, res, next) => {
           }),
         );
 
-        // Update 'products' array of the current order with products containing 'images' property
         order.products = productsWithImages;
-
-        // Return updated order object
         return order;
       }),
     );

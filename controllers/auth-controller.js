@@ -75,7 +75,7 @@ export const postSignup = async (req, res, next) => {
     const user = await req.db.users.create({
       email,
       password: hashedPassword,
-      role,
+      role: 'Admin',
     });
     await req.db.carts.create({ userId: user.id });
     createSendToken(user, res);
@@ -162,41 +162,3 @@ export const isAuth = async (req, res, next) => {
   }
   next();
 };
-
-// Auth for API
-/* export const isAuth = async (req, res, next) => {
-  try {
-    let token;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies && req.cookies.jwt) {
-      token = req.cookies.jwt;
-    }
-
-    if (!token) {
-      return next(new AppError('You are not logged in'), 401);
-    }
-
-    // 1) Verification token
-    const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY);
-
-    // 2) Check user still exists
-    const currentUser = await req.db.users.findByPk(decoded.id);
-    if (!currentUser) {
-      return next(new AppError('The user belonging to this token no longer exists', 401));
-    }
-
-    // 3) Check if user changed password after the token was issued
-    if (currentUser.passwordChangedAt) {
-      const changedTimestamp = parseInt(currentUser.passwordChangedAt.getTime() / 1000, 10);
-      if (decoded.iat < changedTimestamp) {
-        return next(new AppError('User recently changed password! Please log in again.', 401));
-      }
-    }
-    req.user = currentUser;
-    res.locals.user = req.user || null;
-    next();
-  } catch (err) {
-    next(new AppError(err, 500));
-  }
-}; */

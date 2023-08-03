@@ -1,25 +1,24 @@
 import fs from 'fs';
 
 function deleteFile(filePath) {
-  fs.unlink(filePath, err => {
-    if (err) {
-      throw err;
-    }
-  });
-}
-
-function deleteFiles(files) {
-  let i = files.length;
-  files.forEach(filepath => {
-    fs.unlink(filepath, err => {
-      i--;
+  return new Promise((resolve, reject) => {
+    fs.unlink(filePath, err => {
       if (err) {
-        throw err;
-      } else if (i <= 0) {
-        return;
+        reject(err);
+      } else {
+        resolve();
       }
     });
   });
+}
+
+async function deleteFiles(files) {
+  try {
+    const unlinkPromises = files.map(filePath => deleteFile(filePath));
+    await Promise.all(unlinkPromises);
+  } catch (err) {
+    throw err;
+  }
 }
 
 export function deleteImage(imageUrl) {
@@ -32,21 +31,14 @@ export function deleteImage(imageUrl) {
 
 export function getImageUrl(images) {
   const imageUrl = [];
-  let image1;
-  let image2;
-  let image3;
-  if (images.image1) {
-    image1 = images.image1[0].path;
-    imageUrl.push(image1);
+
+  for (let i = 1; i <= 3; i++) {
+    const imageKey = `image${i}`;
+    if (images[imageKey]) {
+      imageUrl.push(images[imageKey][0].path);
+    }
   }
-  if (images.image2) {
-    image2 = images.image2[0].path;
-    imageUrl.push(image2);
-  }
-  if (images.image3) {
-    image3 = images.image3[0].path;
-    imageUrl.push(image3);
-  }
+
   return imageUrl;
 }
 

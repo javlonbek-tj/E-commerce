@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import filtering from '../services/filtering.js';
 import formatProd from '../services/formatProd.js';
 import capitalizeNames from '../services/toUpperCase.js';
+import getDataFromDB from '../services/getDataFromDB.js';
 
 export const homePage = async (req, res, next) => {
   try {
@@ -36,54 +37,37 @@ export const homePage = async (req, res, next) => {
 
 export const getAllProducts = async (req, res, next) => {
   try {
-    let brands = await req.db.productBrand.findAll({ raw: true });
-    brands = capitalizeNames(brands);
-    let types = await req.db.productType.findAll({ raw: true });
-    types = capitalizeNames(types);
-    let { page, limit } = req.query;
+    const { brands, types } = await getDataFromDB;
+    let { page, limit, search, productBrandId, productTypeId, from, to } = req.query;
     page = Math.abs(page) || 1;
     limit = Math.abs(limit) || 20;
     let offset = (page - 1) * limit;
-    let prods;
-    let total;
-    if (req.query.search) {
-      const { search } = req.query;
-      prods = await req.db.products.findAll({
-        where: { name: { [Op.iLike]: `%${search}%` } },
-        include: req.db.images,
-      });
-    } else if (req.query.productBrandId || req.query.productTypeId || req.query.from || req.query.to) {
-      let { productBrandId, productTypeId, from, to } = req.query;
+
+    let where = {};
+
+    if (search) {
+      where.name = { [Op.iLike]: `%${search}%` };
+    } else if (productBrandId || productTypeId || from || to) {
       from = parseInt(from);
       to = parseInt(to);
-      const { rows, count } = await req.db.products.findAndCountAll({
-        where: filtering(productBrandId, productTypeId, from, to),
-        order: [['createdAt', 'DESC']],
-        offset,
-        limit,
-        include: req.db.images,
-        distinct: true,
-      });
-      total = parseInt(count);
-      prods = rows;
-    } else {
-      const { rows, count } = await req.db.products.findAndCountAll({
-        order: [['createdAt', 'DESC']],
-        offset,
-        limit,
-        include: req.db.images,
-        distinct: true,
-      });
-      prods = rows;
-      total = parseInt(count);
+      where = filtering(productBrandId, productTypeId, from, to);
     }
-    let isOverLimit = null;
-    if (total > limit) {
-      isOverLimit = true;
-    }
+
+    const { rows, count } = await req.db.products.findAndCountAll({
+      where,
+      order: [['createdAt', 'DESC']],
+      offset,
+      limit,
+      include: req.db.images,
+      distinct: true,
+    });
+
+    const total = parseInt(count);
+    const isOverLimit = total > limit;
+
     res.render('products', {
       pageTitle: 'Barcha mahsulotlar',
-      prods,
+      prods: rows,
       isOverLimit,
       types,
       brands,

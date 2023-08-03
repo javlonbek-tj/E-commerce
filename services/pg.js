@@ -30,8 +30,8 @@ export default async function pg() {
     db.users = await UsersModel(sequelize, Sequelize);
     db.products = await ProductsModel(sequelize, Sequelize);
     db.productInfo = await ProductInfo(sequelize, Sequelize);
-    db.productType = await ProductType(sequelize, Sequelize);
-    db.productBrand = await ProductBrand(sequelize, Sequelize);
+    db.productTypes = await ProductType(sequelize, Sequelize);
+    db.productBrands = await ProductBrand(sequelize, Sequelize);
     db.carts = await CartModel(sequelize, Sequelize);
     db.cartItems = await CartItemModel(sequelize, Sequelize);
     db.orders = await OrderModel(sequelize, Sequelize);

@@ -1,6 +1,8 @@
 import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
 import { deleteImageIfError, getImageUrl, deleteImage } from '../services/file.js';
+import capitalizeNames from '../services/toUpperCase.js';
+import getDataFromDB from '../services/getDataFromDB.js';
 
 export const getAdminPage = async (req, res, next) => {
   try {
@@ -14,11 +16,7 @@ export const getAdminPage = async (req, res, next) => {
 
 export const getProdTypePage = async (req, res, next) => {
   try {
-    let types = await req.db.productType.findAll({ raw: true });
-    types.map(type => {
-      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
-      return type;
-    });
+    const { types } = getDataFromDB;
     res.render('admin/prodType', {
       pageTitle: `Mahsulot turi qo'shish`,
       errorMessage: null,
@@ -31,11 +29,7 @@ export const getProdTypePage = async (req, res, next) => {
 
 export const createType = async (req, res, next) => {
   try {
-    let types = await req.db.productType.findAll({ raw: true });
-    types.map(type => {
-      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
-      return type;
-    });
+    const { types } = getDataFromDB;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render('admin/prodType', {
@@ -46,7 +40,7 @@ export const createType = async (req, res, next) => {
     }
     let { name } = req.body;
     name = name.toLowerCase();
-    const type = await req.db.productType.findOne({ where: { name: `${name}` } });
+    const type = await req.db.productTypes.findOne({ where: { name: `${name}` } });
     if (type) {
       return res.render('admin/prodType', {
         pageTitle: `Mahsulot turi qo'shish`,
@@ -63,9 +57,8 @@ export const createType = async (req, res, next) => {
 
 export const deleteType = async (req, res, next) => {
   try {
-    let { typeId } = req.body;
-    typeId = parseInt(typeId);
-    await req.db.productType.destroy({ where: { id: typeId } });
+    const { typeId } = req.body;
+    await req.db.productTypes.destroy({ where: { id: parseInt(typeId) } });
     res.redirect('/admin/prodType');
   } catch (err) {
     next(new AppError(err, 500));
@@ -74,11 +67,7 @@ export const deleteType = async (req, res, next) => {
 
 export const getProdBrandPage = async (req, res, next) => {
   try {
-    let brands = await req.db.productBrand.findAll({ raw: true });
-    brands.map(brand => {
-      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
-      return brand;
-    });
+    const { brands } = getDataFromDB;
     res.render('admin/prodBrand', {
       pageTitle: `Mahsulot brandi qo'shish`,
       errorMessage: null,
@@ -91,11 +80,7 @@ export const getProdBrandPage = async (req, res, next) => {
 
 export const createBrand = async (req, res, next) => {
   try {
-    let brands = await req.db.productBrand.findAll({ raw: true });
-    brands.map(brand => {
-      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
-      return brand;
-    });
+    const { brands } = getDataFromDB;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render('admin/prodBrand', {
@@ -106,7 +91,7 @@ export const createBrand = async (req, res, next) => {
     }
     let { name } = req.body;
     name = name.toLowerCase();
-    const brand = await req.db.productBrand.findOne({ where: { name: `${name}` } });
+    const brand = await req.db.productBrands.findOne({ where: { name: `${name}` } });
     if (brand) {
       return res.render('admin/prodBrand', {
         pageTitle: `Mahsulot brandi qo'shish`,
@@ -123,9 +108,8 @@ export const createBrand = async (req, res, next) => {
 
 export const deleteBrand = async (req, res, next) => {
   try {
-    let { brandId } = req.body;
-    brandId = parseInt(brandId);
-    await req.db.productBrand.destroy({ where: { id: brandId } });
+    const { brandId } = req.body;
+    await req.db.productBrands.destroy({ where: { id: parseInt(brandId) } });
     res.redirect('/admin/prodBrand');
   } catch (err) {
     next(new AppError(err, 500));
@@ -134,16 +118,7 @@ export const deleteBrand = async (req, res, next) => {
 
 export const getAddProduct = async (req, res, next) => {
   try {
-    let brands = await req.db.productBrand.findAll({ raw: true });
-    brands.map(brand => {
-      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
-      return brand;
-    });
-    let types = await req.db.productType.findAll({ raw: true });
-    types.map(type => {
-      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
-      return type;
-    });
+    const { brands, types } = getDataFromDB;
     res.render('admin/addProduct', {
       pageTitle: 'Mahsulot qo`shish',
       validationErrors: [],
@@ -166,16 +141,7 @@ export const getAddProduct = async (req, res, next) => {
 
 export const createProduct = async (req, res, next) => {
   try {
-    let brands = await req.db.productBrand.findAll({ raw: true });
-    brands.map(brand => {
-      brand.name = brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
-      return brand;
-    });
-    let types = await req.db.productType.findAll({ raw: true });
-    types.map(type => {
-      type.name = type.name.charAt(0).toUpperCase() + type.name.slice(1);
-      return type;
-    });
+    const { brands, types } = getDataFromDB;
     let { name, price, top, brandId, typeId, ...productInfo } = req.body;
     const errors = validationResult(req);
     const images = req.files;
@@ -218,7 +184,6 @@ export const createProduct = async (req, res, next) => {
       price,
       productBrandId: brandId ? brandId : null,
       productTypeId: typeId,
-      img: images.image1[0].path,
       top,
     });
     imageUrl.forEach(img => {
@@ -252,7 +217,7 @@ export const deleteProduct = async (req, res, next) => {
     const orders = await req.db.orders.findAll({ include: ['products'] });
     for (const order of orders) {
       const orderProducts = order.products;
-      const index = orderProducts.findIndex(p => p.id === prodId);
+      const index = orderProducts.findIndex(orderProduct => orderProduct.id === prodId);
       if (index !== -1) {
         // Remove the product from the order's products array
         orderProducts.splice(index, 1);
