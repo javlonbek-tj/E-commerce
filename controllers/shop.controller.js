@@ -1,4 +1,3 @@
-import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
 
 export const getCart = async (req, res, next) => {
@@ -20,7 +19,7 @@ export const getCart = async (req, res, next) => {
       totalProdPrice,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -52,7 +51,7 @@ export const postCart = async (req, res, next) => {
       },
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -67,7 +66,7 @@ export const increaseQuantityByOne = async (req, res, next) => {
       success: true,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -82,7 +81,7 @@ export const decreaseQuantityByOne = async (req, res, next) => {
       success: true,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -94,7 +93,7 @@ export const deleteCart = async (req, res, next) => {
       success: true,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -127,7 +126,7 @@ export const getCheckout = async (req, res, next) => {
       error: false,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -183,7 +182,7 @@ export const postOrder = async (req, res, next) => {
     await cart.setProducts(null);
     res.redirect('/orders');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -216,6 +215,6 @@ export const getOrders = async (req, res, next) => {
       updatedOrders,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };

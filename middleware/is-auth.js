@@ -1,4 +1,3 @@
-import AppError from '../services/AppError.js';
 export default async function isAuth(req, res, next) {
   try {
     if (!req.user) {
@@ -6,6 +5,6 @@ export default async function isAuth(req, res, next) {
     }
     next();
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 }

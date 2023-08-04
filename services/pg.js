@@ -17,13 +17,14 @@ dotenv.config();
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
   dialect: 'postgres',
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
   logging: false,
 });
 
 export default async function pg() {
   try {
     await sequelize.authenticate();
+
+    console.log('Database connection has been established successfully.');
 
     // create database object
     let db = {};
@@ -40,9 +41,10 @@ export default async function pg() {
     db.images = await ImageModel(sequelize, Sequelize);
 
     await Relations(db);
-    await sequelize.sync({ force: false });
+    // CAUTION!!!! Only run this in delelopment mode.
+    // await sequelize.sync({ force: false });
     return db;
   } catch (err) {
-    console.log(err);
+    throw new Error('Error in connection to database');
   }
 }

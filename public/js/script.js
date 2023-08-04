@@ -57,3 +57,5 @@ function removeInput(button) {
   const div = button.parentNode.parentNode;
   div.parentNode.removeChild(div);
 }
+
+// set icon according to typeName

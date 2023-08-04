@@ -1,7 +1,5 @@
-import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
 import { deleteImageIfError, getImageUrl, deleteImage } from '../services/file.js';
-import capitalizeNames from '../services/toUpperCase.js';
 import getDataFromDB from '../services/getDataFromDB.js';
 
 export const getAdminPage = async (req, res, next) => {
@@ -10,26 +8,26 @@ export const getAdminPage = async (req, res, next) => {
       pageTitle: 'Admin',
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
 export const getProdTypePage = async (req, res, next) => {
   try {
-    const { types } = getDataFromDB;
+    const { types } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     res.render('admin/prodType', {
       pageTitle: `Mahsulot turi qo'shish`,
       errorMessage: null,
       types,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
 export const createType = async (req, res, next) => {
   try {
-    const { types } = getDataFromDB;
+    const { types } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render('admin/prodType', {
@@ -48,10 +46,10 @@ export const createType = async (req, res, next) => {
         types,
       });
     }
-    await req.db.productType.create({ name });
-    res.redirect('/admin/prodType');
+    await req.db.productTypes.create({ name });
+    res.redirect('/admin/type');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -59,28 +57,28 @@ export const deleteType = async (req, res, next) => {
   try {
     const { typeId } = req.body;
     await req.db.productTypes.destroy({ where: { id: parseInt(typeId) } });
-    res.redirect('/admin/prodType');
+    res.redirect('/admin/type');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
 export const getProdBrandPage = async (req, res, next) => {
   try {
-    const { brands } = getDataFromDB;
+    const { brands } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     res.render('admin/prodBrand', {
       pageTitle: `Mahsulot brandi qo'shish`,
       errorMessage: null,
       brands,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
 export const createBrand = async (req, res, next) => {
   try {
-    const { brands } = getDataFromDB;
+    const { brands } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render('admin/prodBrand', {
@@ -99,10 +97,10 @@ export const createBrand = async (req, res, next) => {
         brands,
       });
     }
-    await req.db.productBrand.create({ name });
-    res.redirect('/admin/prodBrand');
+    await req.db.productBrands.create({ name });
+    res.redirect('/admin/brand');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -112,13 +110,13 @@ export const deleteBrand = async (req, res, next) => {
     await req.db.productBrands.destroy({ where: { id: parseInt(brandId) } });
     res.redirect('/admin/prodBrand');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
 export const getAddProduct = async (req, res, next) => {
   try {
-    const { brands, types } = getDataFromDB;
+    const { brands, types } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     res.render('admin/addProduct', {
       pageTitle: 'Mahsulot qo`shish',
       validationErrors: [],
@@ -135,7 +133,7 @@ export const getAddProduct = async (req, res, next) => {
       brands,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -203,7 +201,7 @@ export const createProduct = async (req, res, next) => {
     }
     res.redirect('/');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -234,7 +232,7 @@ export const deleteProduct = async (req, res, next) => {
     deleteImage(imageUrl);
     res.redirect('/');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -273,6 +271,6 @@ export const getAllOrders = async (req, res, next) => {
       orders: updatedOrders,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };

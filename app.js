@@ -1,11 +1,17 @@
 import express from 'express';
-import pg from './services/pg.js';
 import dotenv from 'dotenv';
-import { globalErrorHandler, get404 } from './controllers/error.controller.js';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import upload from './services/fileUpload.js';
+import pg from './services/pg.js';
+import { globalErrorHandler, get404 } from './controllers/error.controller.js';
+import logger from './services/logger.js';
 dotenv.config();
+
+process.on('uncaughtException', err => {
+  logger.error('Uncaught Exception:', err);
+  process.exit(1);
+});
 
 // Import routes
 import { isAuth } from './controllers/auth-controller.js';
@@ -68,8 +74,15 @@ async function start() {
     app.use(get404);
     app.use(globalErrorHandler);
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
 
 start();
+
+process.on('unhandledRejection', err => {
+  logger.error('Unhandled rejection:', err);
+  server.close(() => {
+    process.exit(1);
+  });
+});

@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import AppError from '../services/AppError.js';
 import { validationResult } from 'express-validator';
 import { promisify } from 'util';
 
@@ -36,7 +35,7 @@ export const getSignUp = async (req, res, next) => {
       error: null,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -81,7 +80,7 @@ export const postSignup = async (req, res, next) => {
     createSendToken(user, res);
     res.redirect('/');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -96,7 +95,7 @@ export const getLogin = async (req, res, next) => {
       },
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -128,7 +127,7 @@ export const postLogin = async (req, res, next) => {
     createSendToken(user, res);
     res.redirect('/');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -137,7 +136,7 @@ export const logout = async (req, res, next) => {
     res.clearCookie('jwt');
     res.redirect('/');
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 

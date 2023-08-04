@@ -1,12 +1,12 @@
-import AppError from '../services/AppError.js';
 import { Op } from 'sequelize';
 import filtering from '../services/filtering.js';
 import formatProd from '../services/formatProd.js';
-import capitalizeNames from '../services/toUpperCase.js';
 import getDataFromDB from '../services/getDataFromDB.js';
+import getIconClass from '../services/icon-function.js';
 
 export const homePage = async (req, res, next) => {
   try {
+    const { types } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     const topProds = await req.db.products.findAll({
       where: { top: { [Op.not]: 'false' } },
       order: [['createdAt', 'DESC']],
@@ -29,15 +29,17 @@ export const homePage = async (req, res, next) => {
       pageTitle: 'E-Shopping',
       topProds,
       prods: allProds,
+      types,
+      getIconClass,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
 export const getAllProducts = async (req, res, next) => {
   try {
-    const { brands, types } = await getDataFromDB;
+    const { types, brands } = await getDataFromDB(req.db.productTypes, req.db.productBrands);
     let { page, limit, search, productBrandId, productTypeId, from, to } = req.query;
     page = Math.abs(page) || 1;
     limit = Math.abs(limit) || 20;
@@ -80,7 +82,7 @@ export const getAllProducts = async (req, res, next) => {
       query: req.query,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };
 
@@ -96,6 +98,6 @@ export const getOneProduct = async (req, res, next) => {
       product,
     });
   } catch (err) {
-    next(new AppError(err, 500));
+    next(err);
   }
 };

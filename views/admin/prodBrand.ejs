@@ -9,9 +9,10 @@
       <button class="btn btn-outline-secondary fs-3" type="submit" id="button-addon2">Qo'shish</button>
     </form>
     <div class="mts">
+      <% if (brands?.length > 0) { %>
       <h3>Barcha mahsulot brandlari:</h3>
       <ul>
-        <% for(brand of brands) { %>
+        <% for (brand of brands) { %>
         <form class="d-flex" action="/admin/delete-brand" method="POST">
           <input type="hidden" name="brandId" value="<%= brand.id %>" />
           <li class="fs-3 me-4"><%= brand.name %></li>
@@ -19,6 +20,9 @@
         </form>
         <% } %>
       </ul>
+      <% } else { %>
+      <h3>Mahsulot brandi mavjud emas.</h3>
+      <% } %>
     </div>
   </div>
 </section>
