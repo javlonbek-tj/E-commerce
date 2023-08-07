@@ -2,10 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import upload from './services/fileUpload.js';
-import pg from './services/pg.js';
+import upload from './utils/fileUpload.js';
+import pg from './utils/pg.js';
 import { globalErrorHandler, get404 } from './controllers/error.controller.js';
-import logger from './services/logger.js';
+import logger from './utils/logger.js';
 dotenv.config();
 
 process.on('uncaughtException', err => {

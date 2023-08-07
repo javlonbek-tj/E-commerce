@@ -1,4 +1,4 @@
-import logger from '../services/logger.js';
+import logger from '../utils/logger.js';
 
 export const get404 = (req, res, next) => {
   res.status(404).render('404', {

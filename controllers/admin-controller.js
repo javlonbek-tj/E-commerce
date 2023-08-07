@@ -1,6 +1,6 @@
 import { validationResult } from 'express-validator';
-import { deleteImageIfError, getImageUrl, deleteImage } from '../services/file.js';
-import getDataFromDB from '../services/getDataFromDB.js';
+import { deleteImageIfError, getImageUrl, deleteImage } from '../utils/file.js';
+import getDataFromDB from '../utils/getDataFromDB.js';
 
 export const getAdminPage = async (req, res, next) => {
   try {

@@ -1,8 +1,8 @@
 import { Op } from 'sequelize';
-import filtering from '../services/filtering.js';
-import formatProd from '../services/formatProd.js';
-import getDataFromDB from '../services/getDataFromDB.js';
-import getIconClass from '../services/icon-function.js';
+import filtering from '../utils/filtering.js';
+import formatProd from '../utils/formatProd.js';
+import getDataFromDB from '../utils/getDataFromDB.js';
+import getIconClass from '../utils/icon-function.js';
 
 export const homePage = async (req, res, next) => {
   try {
