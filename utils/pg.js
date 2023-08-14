@@ -12,6 +12,7 @@ import Relations from '../models/Relations.js';
 import dotenv from 'dotenv';
 import OrderModel from '../models/OrderModel.js';
 import OrderItemModel from '../models/OrderItemModel.js';
+import logger from './logger.js';
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -45,6 +46,6 @@ export default async function pg() {
     // await sequelize.sync({ force: false });
     return db;
   } catch (err) {
-    throw new Error('Error in connection to database');
+    logger.error('Error in connention to the database', err);
   }
 }

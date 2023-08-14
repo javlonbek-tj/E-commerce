@@ -41,7 +41,7 @@ export const getSignUp = async (req, res, next) => {
 
 export const postSignup = async (req, res, next) => {
   try {
-    const { email, password, role, confirmPassword } = req.body;
+    const { email, password, confirmPassword } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render('auth/signup', {

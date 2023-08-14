@@ -74,7 +74,7 @@ async function start() {
     app.use(get404);
     app.use(globalErrorHandler);
   } catch (err) {
-    throw err;
+    logger.error('Error in starting server', err);
   }
 }
 
