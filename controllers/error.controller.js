@@ -8,7 +8,7 @@ export const get404 = (req, res, next) => {
 
 const sendErrorDev = (error, req, res) => {
   console.log(error);
-  return res.status(error.statusCode).render('error', {
+  return res.render('error', {
     pageTitle: 'Xatolik!',
     msg: error.message,
   });
@@ -16,7 +16,7 @@ const sendErrorDev = (error, req, res) => {
 
 const sendErrorProd = (error, req, res) => {
   logger.error(error);
-  res.status(error.statusCode).render('error', {
+  res.status(500).render('error', {
     pageTitle: 'Xatolik!',
     msg: 'Tizimda texnik ishlar amalga oshirilmoqda. Noqulayliklar uchun uzr.',
   });
