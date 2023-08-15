@@ -7,11 +7,11 @@ export default function ProductInfo(sequelize, Sequelize) {
     },
     title: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     description: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
   });
 }

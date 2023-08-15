@@ -74,7 +74,7 @@ export const postSignup = async (req, res, next) => {
     const user = await req.db.users.create({
       email,
       password: hashedPassword,
-      role: 'Admin',
+      role,
     });
     await req.db.carts.create({ userId: user.id });
     createSendToken(user, res);

@@ -7,7 +7,7 @@ export default function CartItem(sequelize, Sequelize) {
     },
     quantity: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNul: false,
+      allowNull: false,
     },
   });
 }

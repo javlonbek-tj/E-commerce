@@ -7,31 +7,31 @@ export default function OrderItem(sequelize, Sequelize) {
     },
     quantity: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNul: false,
+      allowNull: false,
     },
     phone: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     userName: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     province: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     region: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     extraAddress: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     address: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
   });
 }

@@ -7,7 +7,7 @@ export default function ProductType(sequelize, Sequelize) {
     },
     name: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
   });
 }

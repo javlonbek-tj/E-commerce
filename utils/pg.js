@@ -43,7 +43,7 @@ export default async function pg() {
 
     await Relations(db);
     // CAUTION!!!! Only run this in delelopment mode.
-    // await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     return db;
   } catch (err) {
     logger.error('Error in connention to the database', err);

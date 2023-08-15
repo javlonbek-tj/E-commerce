@@ -7,16 +7,16 @@ export default function UsersModel(sequelize, Sequelize) {
     },
     email: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
       unique: true,
     },
     password: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
     },
     role: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNull: false,
       defaultValue: 'User',
     },
   });

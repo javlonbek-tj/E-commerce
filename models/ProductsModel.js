@@ -7,11 +7,11 @@ export default function ProductsModel(sequelize, Sequelize) {
     },
     name: {
       type: Sequelize.DataTypes.STRING,
-      allowNul: false,
+      allowNulll: false,
     },
     price: {
       type: Sequelize.DataTypes.DECIMAL(10, 2),
-      allowNul: false,
+      allowNulll: false,
     },
     top: {
       type: Sequelize.DataTypes.BOOLEAN,
