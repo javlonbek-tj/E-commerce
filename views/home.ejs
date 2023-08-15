@@ -50,7 +50,7 @@
   <div class="<%= (topProds.length > 4) ? 'box-container' : 'box_container' %>">
     <% for (let product of topProds) { %>
     <div class="box mb-5">
-      <a href="/products/<%= product.id %>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
+      <a href="/products/<%= product.id %>"><img src="/<%= product.images[0]?.imageUrl %>" alt="" /></a>
       <div class="content p-3">
         <div class="info pb-1 mb-3">
           <h4 href="#"><%= product.name %></h4>

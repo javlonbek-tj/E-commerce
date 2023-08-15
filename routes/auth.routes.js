@@ -16,7 +16,7 @@ router.post(
       .isEmail()
       .withMessage('Invalid email')
       .normalizeEmail(),
-    check('password', 'Password should have min 6 and max 12 characters').isLength({
+    check('password', "Parol minimal 6 va maksimal 12 ta belgidan iborat bo'lishi kerak").isLength({
       min: 6,
       max: 12,
     }),
