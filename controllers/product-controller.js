@@ -13,24 +13,14 @@ export const homePage = async (req, res, next) => {
         const topProds = await req.db.products.findAll({
             where: { top: { [Op.not]: 'false' } },
             order: [['createdAt', 'DESC']],
-            include: [
-                {
-                    model: req.db.images,
-                    order: [['createdAt', 'ASC']],
-                },
-            ],
+            include: req.db.images,
         })
         const limit = 15
         const allProds = await req.db.products.findAll({
             where: { top: { [Op.not]: 'true' } },
             order: [['createdAt', 'DESC']],
             limit,
-            include: [
-                {
-                    model: req.db.images,
-                    order: [['createdAt', 'ASC']],
-                },
-            ],
+            include: req.db.images,
         })
         if (topProds.length > 0) {
             formatProd(topProds)
@@ -77,12 +67,7 @@ export const getAllProducts = async (req, res, next) => {
             order: [['createdAt', 'DESC']],
             offset,
             limit,
-            include: [
-                {
-                    model: req.db.images,
-                    order: [['createdAt', 'ASC']],
-                },
-            ],
+            include: req.db.images,
             distinct: true,
         })
 
@@ -113,10 +98,7 @@ export const getOneProduct = async (req, res, next) => {
         const { id } = req.params
         const product = await req.db.products.findOne({
             where: { id },
-            include: [
-                { model: req.db.productInfo },
-                { model: req.db.images, order: [['createdAt', 'ASC']] },
-            ],
+            include: [{ model: req.db.productInfo }, { model: req.db.images }],
         })
         res.render('prod-detail', {
             pageTitle: `${product.name}`,
