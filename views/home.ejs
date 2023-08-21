@@ -1,118 +1,143 @@
 <%- include('./includes/head.ejs') %>
 <div class="container pt-5">
-  <nav class="row gy-4">
-    <div>
-      <div class="row">
-        <% if(types.length > 0) { %> <% for(type of types) { %>
-        <div class="col-3 col-md-2 col-lg-1 mb-3">
-          <a
-            href="/products/?productTypeId=<%= type.id%>"
-            class="text-center d-flex flex-column justify-content-center"
-          >
-            <button
-              type="button"
-              class="btn buttonColor rounded-pill mx-auto p-4 mb-2"
-              data-mdb-ripple-color="dark"
-            >
-              <i class="<%= getIconClass(type.name) %> fa-2x fa-fw"></i>
-            </button>
-            <div class="text-dark fs-5"><%= type.name %></div>
-          </a>
+    <nav class="row gy-4">
+        <div>
+            <div class="row">
+                <% if(types.length > 0) { %> <% for(type of types) { %>
+                <div class="col-3 col-md-2 col-lg-1 mb-3">
+                    <a
+                        href="/products/?productTypeId=<%= type.id%>"
+                        class="text-center d-flex flex-column justify-content-center"
+                    >
+                        <button
+                            type="button"
+                            class="btn buttonColor rounded-pill mx-auto p-4 mb-2"
+                            data-mdb-ripple-color="dark"
+                        >
+                            <i
+                                class="<%= getIconClass(type.name) %> fa-2x fa-fw"
+                            ></i>
+                        </button>
+                        <div class="text-dark fs-5"><%= type.name %></div>
+                    </a>
+                </div>
+                <% } %> <% } %>
+                <div class="col-3">
+                    <a
+                        href="/products"
+                        class="text-center d-flex flex-column justify-content-center"
+                    >
+                        <button
+                            type="button"
+                            class="btn buttonColor rounded-pill mx-auto p-4 mb-2"
+                            data-mdb-ripple-color="dark"
+                        >
+                            <i class="fas fa-warehouse fa-2x fa-fw"></i>
+                        </button>
+                        <div class="text-dark fs-5">Barchasi</div>
+                    </a>
+                </div>
+            </div>
         </div>
-        <% } %> <% } %>
-        <div class="col-3">
-          <a href="/products" class="text-center d-flex flex-column justify-content-center">
-            <button
-              type="button"
-              class="btn buttonColor rounded-pill mx-auto p-4 mb-2"
-              data-mdb-ripple-color="dark"
-            >
-              <i class="fas fa-warehouse fa-2x fa-fw"></i>
-            </button>
-            <div class="text-dark fs-5">Barchasi</div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 </div>
 
 <!-- products section starts  -->
 
 <!-- Top products -->
 <section class="cards container-lg" id="cards">
-  <% if(topProds.length <= 0) { %>
-  <h2 class="text-center">Top Mahsulotlar mavjud emas</h2>
-  <% } else { %>
-  <div class="top-products d-flex justify-content-between">
-    <h2>Top Mahsulotlar</h2>
-  </div>
-  <div class="<%= (topProds.length > 4) ? 'box-container' : 'box_container' %>">
-    <% for (let product of topProds) { %>
-    <div class="box mb-5">
-      <a href="/products/<%= product.id %>"><img src="/<%= product.images[0]?.imageUrl %>" alt="" /></a>
-      <div class="content p-3">
-        <div class="info pb-1 mb-3">
-          <h4 href="#"><%= product.name %></h4>
+    <% if(topProds.length <= 0) { %>
+    <h2 class="text-center">Top Mahsulotlar mavjud emas</h2>
+    <% } else { %>
+    <div class="top-products d-flex justify-content-between">
+        <h2>Top Mahsulotlar</h2>
+    </div>
+    <div
+        class="<%= (topProds.length > 4) ? 'box-container' : 'box_container' %>"
+    >
+        <% for (let product of topProds) { %>
+        <div class="box mb-5">
+            <a href="/products/<%= product.id %>"
+                ><img src="/<%= product.images[0]?.imageUrl %>" alt=""
+            /></a>
+            <div class="content p-3">
+                <div class="info pb-1 mb-3">
+                    <h4 href="#"><%= product.name %></h4>
+                </div>
+                <h3 class="text-center"><%= product.price %> so‘m</h3>
+            </div>
+            <div
+                class="card_footer d-flex justify-content-between px-5 py-2 align-items-center"
+            >
+                <form id="cartIcon">
+                    <input type="hidden" value="<%= product.id%>" id="prodId" />
+                    <% if(user) { %>
+                    <button class="bg-white text-success">
+                        <i class="fa-solid fa-cart-shopping fs-4"></i>
+                    </button>
+                    <% } else { %>
+                    <a href="/login" class="bg-white text-success"
+                        ><i class="fa-solid fa-cart-shopping fs-4"></i
+                    ></a>
+                    <% } %>
+                </form>
+            </div>
         </div>
-        <h3 class="text-center"><%= product.price %> so‘m</h3>
-      </div>
-      <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
-        <form id="cartIcon">
-          <input type="hidden" value="<%= product.id%>" id="prodId" />
-          <% if(user) { %>
-          <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
-          <% } else { %>
-          <a href="/login" class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></a>
-          <% } %>
-        </form>
-      </div>
+        <% } %>
     </div>
     <% } %>
-  </div>
-  <% } %>
 </section>
 
 <!-- New products -->
 
 <section class="cards container-lg" id="cards">
-  <% if(prods.length <= 0) { %>
-  <h2 class="text-center">Yangi Mahsulotlar mavjud emas</h2>
-  <% } else { %>
-  <div class="top-products d-flex justify-content-between">
-    <h1></h1>
-    <a href="/products" class="h4 fst-italic"
-      >Barcha mahsulotlar<i class="fa-solid fa-arrow-right ms-2"></i
-    ></a>
-  </div>
-  <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
-    <% for (let product of prods) { %>
-    <div class="box mb-5">
-      <a href="/products/<%= product.id%>"><img src="/<%= product.images[0].imageUrl %>" alt="" /></a>
-      <div class="content p-3">
-        <div class="info pb-1 mb-3">
-          <h4 href="#"><%= product.name %></h4>
+    <% if(prods.length <= 0) { %>
+    <h2 class="text-center">Yangi Mahsulotlar mavjud emas</h2>
+    <% } else { %>
+    <div class="top-products d-flex justify-content-between">
+        <h1></h1>
+        <a href="/products" class="h4 fst-italic"
+            >Barcha mahsulotlar<i class="fa-solid fa-arrow-right ms-2"></i
+        ></a>
+    </div>
+    <div class="<%= (prods.length > 4) ? 'box-container' : 'box_container' %>">
+        <% for (let product of prods) { %>
+        <div class="box mb-5">
+            <a href="/products/<%= product.id%>"
+                ><img src="/<%= product.images[0].imageUrl %>" alt=""
+            /></a>
+            <div class="content p-3">
+                <div class="info pb-1 mb-3">
+                    <h4 href="#"><%= product.name %></h4>
+                </div>
+                <h3 class="text-center"><%= product.price %> so‘m</h3>
+            </div>
+            <div
+                class="card_footer d-flex justify-content-between px-5 py-2 align-items-center"
+            >
+                <form id="cartIcon">
+                    <input type="hidden" value="<%= product.id%>" id="prodId" />
+                    <% if(user) { %>
+                    <button class="bg-white text-success">
+                        <i class="fa-solid fa-cart-shopping fs-4"></i>
+                    </button>
+                    <% } else { %>
+                    <a href="/login" class="bg-white text-success"
+                        ><i class="fa-solid fa-cart-shopping fs-4"></i
+                    ></a>
+                    <% } %>
+                </form>
+            </div>
         </div>
-        <h3 class="text-center"><%= product.price %>  so‘m</h3>
-      </div>
-      <div class="card_footer d-flex justify-content-between px-5 py-2 align-items-center">
-        <form id="cartIcon">
-          <input type="hidden" value="<%= product.id%>" id="prodId" />
-          <% if(user) { %>
-          <button class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></button>
-          <% } else { %>
-          <a href="/login" class="bg-white text-success"><i class="fa-solid fa-cart-shopping fs-4"></i></a>
-          <% } %>
-        </form>
-      </div>
+        <% } %>
     </div>
     <% } %>
-  </div>
-  <% } %>
 </section>
 
 <div class="text-center">
-  <a href="/products" class="btn btn-outline-primary fs-4">Barchasi ko'rish</a>
+    <a href="/products" class="btn btn-outline-primary fs-4"
+        >Barchasi ko'rish</a
+    >
 </div>
 <section class="mbb"></section>
 <%- include('./includes/end.ejs') %>
