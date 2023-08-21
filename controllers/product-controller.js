@@ -26,7 +26,13 @@ export const homePage = async (req, res, next) => {
             where: { top: { [Op.not]: 'true' } },
             order: [['createdAt', 'DESC']],
             limit,
-            include: req.db.images,
+            include: [
+                {
+                    model: req.db.images,
+                    separate: true,
+                    order: [['createdAt', 'ASC']],
+                },
+            ],
         })
         if (topProds.length > 0) {
             formatProd(topProds)
@@ -73,7 +79,13 @@ export const getAllProducts = async (req, res, next) => {
             order: [['createdAt', 'DESC']],
             offset,
             limit,
-            include: req.db.images,
+            include: [
+                {
+                    model: req.db.images,
+                    separate: true,
+                    order: [['createdAt', 'ASC']],
+                },
+            ],
             distinct: true,
         })
 
