@@ -12,8 +12,14 @@ export const homePage = async (req, res, next) => {
         )
         const topProds = await req.db.products.findAll({
             where: { top: { [Op.not]: 'false' } },
-            order: ['createdAt', 'DESC'],
-            include: req.db.images,
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    model: req.db.images,
+                    separate: true,
+                    order: [['createdAt', 'ASC']],
+                },
+            ],
         })
         const limit = 15
         const allProds = await req.db.products.findAll({
